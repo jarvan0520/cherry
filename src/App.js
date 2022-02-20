@@ -12,7 +12,8 @@ import Order from './compoments/Order';
 export function App() {
    const [auth, setauth] = useState(false);
    const logincheck = () => setauth(true);
-
+   const ls = localStorage.getItem("token")
+    const ss = sessionStorage.getItem("token")
     useEffect (() => {
     const ls = localStorage.getItem("token")
     const ss = sessionStorage.getItem("token")
@@ -33,39 +34,80 @@ export function App() {
 
   return (
     
-    <Router >   
-      <Routes> 
-        <Route path = "*" element={<Home/>} />
-        { auth && (
-          <Route 
-          path = "/product" 
-          element={<Product/>}
-          />
-        )} 
-        { auth && (
-          <Route 
-          path = "/order" 
-          element={<Order/>}
-          />
-        )} 
-         { auth && (
-          <Route 
-          path = "/logout" 
-          element={<Logout/>}
-          />
-        )}
-         { !auth && (
-          <Route 
-          path = "/register" 
-          element={<Register/>} 
-          /> 
-        )}
-         { !auth && (
-           <Route path = "/login" element={<Login authenticate={logincheck}/>}/>  
-        )} 
-      
-      </Routes>
-    </Router>
+    <div>
+      <nav className ="navbar navbar-expand-lg navbar-light bg-light">
+                    
+                    <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                        <span className="navbar-toggler-icon"></span>
+                    </button>
+                    <div className="collapse navbar-collapse" id="navbarNav">
+                        <ul className="navbar-nav">
+                            <li className="nav-item active">
+                            <a className="nav-link" href="/">HOME </a>
+                            </li>
+                            {!(ls||ss)&&
+                                 <li className="nav-item">
+                                 <a className="nav-link" href="/login">LOGIN</a>
+                                 </li>                           
+                            }
+                             {!(ls||ss)&&
+                                 <li className="nav-item">
+                                 <a className="nav-link" href="/register">REGISTER</a>
+                                 </li>                           
+                            }
+                            {(ls||ss)&&
+                                <li className="nav-item">
+                                <a className="nav-link" href='/product'>PRODUCT</a>
+                                </li>                  
+                            }
+                            {(ls||ss)&&
+                                <li className="nav-item">
+                                <a className="nav-link " href="/order">ORDER</a>
+                                </li>                 
+                            }
+                            {(ls||ss)&&
+                                <li className="nav-item">
+                                <a className="nav-link " href="/logout">LOGOUT</a>
+                                </li>                
+                            }                  
+                        </ul>
+                    </div>
+                </nav>
+      <Router >   
+        <Routes> 
+          <Route path = "*" element={<Home/>} />
+          { auth && (
+            <Route 
+            path = "/product" 
+            element={<Product/>}
+            />
+          )} 
+          { auth && (
+            <Route 
+            path = "/order" 
+            element={<Order/>}
+            />
+          )} 
+           { auth && (
+            <Route 
+            path = "/logout" 
+            element={<Logout/>}
+            />
+          )}
+           { !auth && (
+            <Route 
+            path = "/register" 
+            element={<Register/>} 
+            /> 
+          )}
+           { !auth && (
+             <Route path = "/login" element={<Login authenticate={logincheck}/>}/>  
+          )} 
+        
+        </Routes>
+      </Router>
+    </div>
+    
   );
 }
 

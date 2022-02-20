@@ -4,9 +4,6 @@ import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
 import IconButton from "@material-ui/core/IconButton";
 import { useNavigate } from 'react-router-dom'
-const ls = localStorage.getItem("token")
-const ss = sessionStorage.getItem("token")
-
  function Login({authenticate}) {
   const navigate = useNavigate()
   const [state, setState] = useState({
@@ -64,45 +61,6 @@ const ss = sessionStorage.getItem("token")
  
   return (   
     <section className="vh-100 gradient-custom">
-      <nav className="navbar navbar-expand-lg navbar-light bg-light">
-        <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-          <span className="navbar-toggler-icon"></span>
-        </button>
-        <div className="collapse navbar-collapse" id="navbarNav">
-          <ul className="navbar-nav">
-            <li className="nav-item active">
-              <a className="nav-link" href="/">HOME </a>
-            </li>
-            
-            {!(ls||ss)&&
-                 <li className="nav-item">
-                 <a className="nav-link" href="/login">LOGIN</a>
-               </li>       
-              }
-            {!(ls||ss)&&
-                  <li className="nav-item">
-                  <a className="nav-link" href="/register">REGISTER</a>
-                </li>          
-              }
-            {(ls||ss)&&
-                  <li className="nav-item">
-                  <a className="nav-link" href='/product'>PRODUCT</a>
-                  </li>                  
-              }
-              {(ls||ss)&&
-                  <li className="nav-item">
-                  <a className="nav-link " href="/order">ORDER</a>
-                  </li>                 
-              }
-              {(ls||ss)&&
-                  <li className="nav-item">
-                  <a className="nav-link " href="/logout">LOGOUT</a>
-                  </li>                
-              } 
-          </ul>
-        </div>
-      </nav>
-
       <div className="container py-5 h-100">
         <div className="row d-flex justify-content-center align-items-center h-100">
           <div className="col-12 col-md-8 col-lg-6 col-xl-5">
@@ -116,9 +74,7 @@ const ss = sessionStorage.getItem("token")
                       onChange={handleChange} />
                     <label className="form-label" htmlFor="typeEmailX">username</label>
                   </div>
-                  
-                  <div className="form-outline form-white mb-4">
-                    
+                  <div className="form-outline form-white mb-4">       
                       <div className='input-group mb-3 bg-white shadow border rounded'>
                         <input type={state.showPassword ? "text" : "password"}  className="form-control form-control-lg" name= 'password' value={state.password}
                         onChange={handleChange} />   
@@ -126,8 +82,7 @@ const ss = sessionStorage.getItem("token")
                           {state.showPassword ? <Visibility /> : <VisibilityOff />}
                         </IconButton>                 
                       </div>
-                      <label className="form-label" htmlFor="typePasswordX">Password</label>
-                  
+                      <label className="form-label" htmlFor="typePasswordX">Password</label>  
                   </div> 
                   <div>     
                      <div>
