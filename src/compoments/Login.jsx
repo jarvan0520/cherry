@@ -13,7 +13,6 @@ import { useNavigate } from 'react-router-dom'
     rememberMe : false,
     token : false
   })
-
   const handleChange = e => {
     const input = e.target;
     const value = input.type === 'checkbox' ? input.checked : input.value;
@@ -26,15 +25,11 @@ import { useNavigate } from 'react-router-dom'
       ...state,
       showPassword: !state.showPassword
     })
-  };
-  
+  }; 
   const {username,rememberMe} = state
-  const handleLogin = ()=>  {
-    
-    axios.post('http://206.189.39.185:5031/api/User/UserLogin', state)
-   
-      .then(response => {
-       
+  const handleLogin = ()=>  {   
+    axios.post('http://206.189.39.185:5031/api/User/UserLogin', state) 
+      .then(response => {     
         const token = JSON.stringify(response.data.data.token);
         
           if(rememberMe){          
@@ -57,8 +52,7 @@ import { useNavigate } from 'react-router-dom'
         alert('Login Unsuccessfully');
         return error;
       })
-  };
- 
+  }; 
   return (   
     <section className="vh-100 gradient-custom">
       <div className="container py-5 h-100">
@@ -101,11 +95,8 @@ import { useNavigate } from 'react-router-dom'
             </div>
           </div>
         </div>
-      </div>
-    
+      </div>  
       </section >
-
     )
-
 }
 export default Login;

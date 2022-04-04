@@ -3,8 +3,10 @@ import MaterialTable from 'material-table';
 import  { useState, useEffect } from 'react';
 import React from "react";
 import XLSX from 'xlsx';
+import { positions } from "@mui/system";
 
-export function Editable () {   
+export function Editable () {  
+  
     const [columns] = useState([
         { title: 'ProductName', field: 'productName' },
         { title: 'ProductCode', field: 'productCode' },
@@ -50,6 +52,7 @@ export function Editable () {
           const ws = wb.Sheets[wsname];
           const data = XLSX.utils.sheet_to_json(ws);
           resolve(data);
+          alert('successfully')
         };
         fileReader.onerror = (error) => {
           reject(error);
@@ -73,23 +76,24 @@ export function Editable () {
 
     return (  
         <>
-        <div>
-        <nav className="navbar navbar-expand-lg navbar-light bg-light">
-      <input
-        type="file"
-        className="form"
-        onChange={(e) => {
-          const file = e.target.files[0];
-      readExcel(file);}}/>
+      <div>
+        <input
+          type="file" className="form" 
+          style={{right:'0px' },
+                { positions:'absolute'}}
+          onChange={(e) => {const file = e.target.files[0];readExcel(file);}}/>
         <button onClick={downloadExcel}> export</button> 
-        </nav>
       </div>
+      
       <div>
        <MaterialTable
        title="Product Order"
        columns={columns}     
        data = {prodList2?  prodList.concat(prodList2) : prodList}
-       isLoading={loading}/>
+       isLoading={loading}
+       button={readExcel}
+       
+       />
       </div>
     </>
     )

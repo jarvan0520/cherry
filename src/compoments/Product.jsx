@@ -56,8 +56,7 @@ export function Editable () {
         data={prodList}    
         editable={{
           onRowAdd: newData =>
-            new Promise((resolve, reject) => {
-              
+            new Promise((resolve, reject) => {           
               setTimeout(() => {  
                 axios.post('http://206.189.39.185:5031/api/Product/ProductCreate',changeType(newData))          
                 .then(res=>{   
@@ -78,8 +77,10 @@ export function Editable () {
                 const dataUpdate = [...prodList];
                 const index = oldData.tableData.id;
                 dataUpdate[index] = newData;
+                console.log(newData)
                 axios.put('http://206.189.39.185:5031/api/Product/ProductUpdate',changeType(newData))
                 .then (response=>{
+                    
                     intercept();
                     setProdList([...dataUpdate]);
                     alert('Update successfully');  
@@ -88,7 +89,7 @@ export function Editable () {
                     alert('Unsuccessfully');
                 })
                 resolve();
-              }, 2000)
+              }, )
             }),
           onRowDelete: oldData =>
             new Promise((resolve, reject) => { 
