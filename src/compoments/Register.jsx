@@ -17,7 +17,7 @@ function Register(){
       }
     const handleRegister =()=> {
         console.log()
-        axios.post('http://206.189.39.185:5031/api/User/UserRegister',state)
+        axios.post('http://47.74.86.28:5030/api/User/UserRegister',state)
         .then (response=>{
             alert('Register successfully');
             return response

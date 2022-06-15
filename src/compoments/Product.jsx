@@ -20,7 +20,7 @@ export function Editable () {
     }, [])
 
     const getData =(newdata)=>{
-      axios.get('http://206.189.39.185:5031/api/Product')
+      axios.get('http://47.74.86.28:5030/api/Product')
         .then(res => {
             setProdList(res.data.data)
         })
@@ -58,7 +58,7 @@ export function Editable () {
           onRowAdd: newData =>
             new Promise((resolve, reject) => {           
               setTimeout(() => {  
-                axios.post('http://206.189.39.185:5031/api/Product/ProductCreate',changeType(newData))          
+                axios.post('http://47.74.86.28:5030/api/Product/ProductCreate',changeType(newData))          
                 .then(res=>{   
                   intercept();
                   getData();
@@ -78,7 +78,7 @@ export function Editable () {
                 const index = oldData.tableData.id;
                 dataUpdate[index] = newData;
                 console.log(newData)
-                axios.put('http://206.189.39.185:5031/api/Product/ProductUpdate',changeType(newData))
+                axios.put('http://47.74.86.28:5030/api/Product/ProductUpdate',changeType(newData))
                 .then (response=>{
                     
                     intercept();
@@ -98,7 +98,7 @@ export function Editable () {
                 const index = oldData.tableData.id;
                 dataDelete.splice(index, 1);
                 const filteredData = prodList.filter( (e) => e.productId !== oldData.productId);
-                axios.delete('http://206.189.39.185:5031/api/Product/'+oldData.productId)
+                axios.delete('http://47.74.86.28:5030/api/Product/'+oldData.productId)
                 .then(res=>{
                   intercept();
                   setProdList([...filteredData])

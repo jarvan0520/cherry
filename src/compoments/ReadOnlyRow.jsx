@@ -1,115 +1,123 @@
-import { RecentActorsRounded } from "@material-ui/icons";
-import React from "react";
-import  { useState, Fragment,useEffect} from "react";
+import { Delete, RecentActorsRounded } from "@material-ui/icons";
+
+import React, { useState, Fragment,useEffect} from "react";
+
+import './Homepage.css';
+         
+const Pagination = ({ postsPerPage, 
+                      totalPosts, 
+                      paginate }) => {
+  const pageNumbers = [];
+           
+  for (let i = 1; i <= Math.ceil(totalPosts / postsPerPage); i++) {
+    pageNumbers.push(i);
+  }
+
+  return (
+    <nav>
+      <ul className='pagination'>
+        {pageNumbers.map(number => (
+          <li key={number} className='page-item'>
+            <a onClick={() => paginate(number)} href='!#' className='page-link'>
+              {number}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  );
+};
+
 const ReadOnlyRow = (
   { product, 
     handleEditClick, 
     handleDeleteClick,
+    handleDeleteEdit,
     handleAdd ,
-    handleAddFormChange}) => { 
-  return (
-    
-    <React.Fragment>
-      {handleAdd === true ?
-      ( 
-      <table>
-        <tbody>
-          <tr>
-            <td>{product.productName}</td>
-            <td>{product.productCode}</td>
-            <td>{product.desciption}</td>
-            <td>{product.price}</td>
-            <td>{product.priceRrp}</td>
-            <td>
-              <button
-                type="button"
-                onClick={(event) => handleEditClick(event, product)}>
-                Edit
-              </button>
-              <button type="button" onClick={() => handleDeleteClick(product)}>
-                Delete
-              </button>
-            </td>
-          </tr>
-          <tr>
-              <td>
-                <input
-                  type="text"
-                  name="productName"
-                  required="required"
-                  // value={addFormData.productName}          
-                  onChange={handleAddFormChange}
-                />
-              </td>
-              <td> 
-                <input
-                type="text"
-                name="productCode"
-                required="required"
-                // value={addFormData.productCode}          
-                onChange={handleAddFormChange}
-              />
-              </td>
-              <td>
-                  <input
-                  type="text"
-                  name="desciption"
-                  required="required"
-                  // value={addFormData.desciption}        
-                  onChange={handleAddFormChange}
-                />
-                </td>
-                <td> 
-                    <input
-                      type="number"
-                      name="price"
-                      required="required"
-                      // value={addFormData.price}          
-                      onChange={handleAddFormChange}
-                    />
-                </td>
-                <td> 
-                  <input
-                    type="number"
-                    name="priceRrp"
-                    required="required"
-                    // value={addFormData.priceRrp}  
-                    onChange={handleAddFormChange}
-                  />
-                </td>
-          </tr>        
-        </tbody>
+    handleAddFormChange,
+    postsPerPage, 
+    totalPosts, 
+    paginate,
+    wannadelate,
+    makeSureDelete,
+    remove,
+    UploadImage
 
-      </table>
-      
-      
-      )   
-      :( 
-      <tr>
+  
+  }) => { 
+  return (
+    <React.Fragment>
+       {remove === true ?(
+
+        <tr >
+          <td className="button">fridgeWestinghouse Fridge Freezer
+            <button className="btn"
+              type="button"
+              onClick={(event) => handleEditClick(event, product)}>
+              <i className="bi bi-pencil-fill"></i>
+            </button>
+            <button className="btn" type="button" 
+            onClick={(event) => handleDeleteEdit(event, product)}>
+            
+            <i className="bi bi-trash"></i>
+            </button>
+          </td>
+          {product.imageUrl  ? 
+          ( <td><img style={{width:'70px',height:'70px'}} src={product.imageUrl} alt=''/></td>):
+          (<td ><div style={{width:'70px',height:'70px'}}></div></td>)}
+          <td>{product.productName}</td>
+          <td>{product.productCode}</td>
+          <td>{product.desciption}</td>
+          <td>{product.price}</td>
+          <td>{product.priceRrp}</td>
+        </tr>
+      ):(
+      <tr >
+        <td className="button">
+          <button className="btn"
+            type="button"
+            onClick={(event) => handleEditClick(event, product)}>
+            <i className="bi bi-pencil-fill"></i>
+          </button>
+          <button className="btn" type="button" 
+          onClick={(event) => handleDeleteEdit(event, product)}>
+          
+          <i className="bi bi-trash"></i>
+          </button>
+        </td>
+        {product.imageUrl  ? 
+        ( <td><img style={{width:'70px',height:'70px'}} src={product.imageUrl} alt=''/></td>):
+        (<td ><div style={{width:'70px',height:'70px'}}></div></td>)}
         <td>{product.productName}</td>
         <td>{product.productCode}</td>
         <td>{product.desciption}</td>
         <td>{product.price}</td>
         <td>{product.priceRrp}</td>
-        
-        <td>
-          <button
-            type="button"
-            onClick={(event) => handleEditClick(event, product)}>
-            Edit
-          </button>
-          <button type="button" onClick={() => handleDeleteClick(product)}>
-            Delete
-          </button>
-        </td>
-        <td>hi</td>
-        
-      </tr>)}
-    
+      </tr>
+      )}
 
     </React.Fragment>
-
-    
+   
+    // <tr>
+    //     <td className="button">
+    //       <button className="btn"
+    //         type="button"
+    //         onClick={(event) => handleEditClick(event, product)}>
+    //         <i className="bi bi-pencil-fill"></i>
+    //       </button>
+    //       <button class="btn" type="button" 
+    //       onClick={(event) => handleDeleteEdit(event, product)}>
+           
+    //       <i class="bi bi-trash"></i>
+    //       </button>
+    //     </td>
+    //     {product.imageUrl  ? ( <td><img style={{width:'70px',height:'70px'}} src={product.imageUrl} alt=''/></td>):(<td ><div style={{width:'70px',height:'70px'}}></div></td>)}
+    //     <td>{product.productName}</td>
+    //     <td>{product.productCode}</td>
+    //     <td>{product.desciption}</td>
+    //     <td>{product.price}</td>
+    //     <td>{product.priceRrp}</td>
+    //   </tr>
   );
 };
 

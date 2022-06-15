@@ -4,60 +4,82 @@ import { nanoid } from "nanoid";
 import data from "./mock-data.json";
 import ReadOnlyRow from "./ReadOnlyRow";
 import EditableRow from "./EditableRow";
+import Posts from './Posts';
+import Pagination from './Pagination';
 import axios  from "axios";
+import  {paginate}  from "./paginate";
+import './Homepage.css';
+import { width } from "@mui/system";
+import { ContactSupportOutlined } from "@material-ui/icons";
 
 
-const Testing = () => {
-    // const [columns] = useState([
-        
-    //     { title: 'ProductName', field: 'productName' },
-    //     { title: 'ProductCode', field: 'productCode' },
-    //     { title: 'Desciption', field: 'desciption' },
-    //     { title: 'Price', field: 'price' },
-    //     { title: 'RrpPrice', field: 'priceRrp' },    
-    // ]);
-
+const Testing = ({ placeholder, data }) => {
 
     const [posts, setPosts] = useState([]);
-    const [loading, setLoading] = useState(false);
+    const pageSize = 5;
     const [currentPage, setCurrentPage] = useState(1);
-    const [postsPerPage] = useState(10);
-  
+    const [postsPerPage] = useState(5);
     const [prodList, setProdList] = useState([])
     
     useEffect(
       () => {getData();}, [])
 
     const getData =(newdata)=>{
-      axios.get('http://206.189.39.185:5031/api/Product')
+      axios.get('http://47.74.86.28:5030/api/Product')
         .then(res => {
+            let parsedData = res.data.data;
+            for(let item of parsedData){
+              item.imageUrl = parse(item.imageUrl)
+            }
+            console.log(res.data.data)
+            // console.log(parsedData)
             setProdList(res.data.data)
-            // setPosts(res.data);
-            setLoading(false);
+            setPosts(res.data.data);
+            
+            
+           
         })
         .catch(error => {
             console.log(error);
-            setLoading(true);
+            
         });
        
     }
-   // Get current posts
+    const parse = data => (data && data.includes('{') )&& JSON.parse(data).url
+
+    const handlePageChange = (page) => {
+      setCurrentPage(page);
+    };
+    // const handleDelete = (post) =>{
+    //   setPosts(prodList.filter(p => p.id !== post.id ))
+    //   }
+   
+
+    const paginatePosts = paginate(prodList, currentPage, pageSize);  
+   
+   
+      // Get current posts
    const indexOfLastPost = currentPage * postsPerPage;
    const indexOfFirstPost = indexOfLastPost - postsPerPage;
-   const currentPosts = posts.slice(indexOfFirstPost, indexOfLastPost);
+   const currentPosts = prodList.slice(indexOfFirstPost, indexOfLastPost);
+
   
-  // Change page
-  const paginate = pageNumber => setCurrentPage(pageNumber);
 
   const [contacts, setContacts] = useState(prodList);
   const [editContactId, setEditContactId] = useState(null);
+  const [remove , setremove] = useState([null])
+  const [confirmdelate, setconfirmdelate] = useState([])
   
+  const wannadelete =()=>{
+    setremove(true)
+  };
   const [addFormData, setAddFormData] = useState({
     productName: "",
     productCode: "",
     desciption: "",
     price: "",
     priceRrp: "",
+   
 
   });
 
@@ -67,11 +89,14 @@ const Testing = () => {
     desciption: "",
     price: "",
     priceRrp: "",
+   
   });
+  
 
   const changeType  = newdata => {
     newdata.price = parseInt(newdata.price)
     newdata.priceRrp = parseInt(newdata.priceRrp)
+    
    return newdata
  }
 
@@ -80,12 +105,10 @@ const Testing = () => {
 
     const fieldName = event.target.getAttribute("name");
     const fieldValue = event.target.value;
-
-    const newFormData = { ...addFormData };
-    newFormData[fieldName] = fieldValue;
-    // console.log(newFormData)
-    setAddFormData(newFormData);
-    // console.log(addFormData)
+    const newAddFormData = {...addFormData };
+  
+    newAddFormData[fieldName] = fieldValue;
+    setAddFormData(newAddFormData);
   };
 
   const handleEditFormChange = (event) => {
@@ -94,15 +117,16 @@ const Testing = () => {
     const fieldValue = event.target.value; 
     const newFormData = { ...editFormData };
     newFormData[fieldName] = fieldValue;
-    // console.log(newFormData)
     setEditFormData(newFormData);
+    // console.log(editFormData)
   };
 
   const handleAddFormSubmit = (event) => {
-    axios.post('http://206.189.39.185:5031/api/Product/ProductCreate',changeType(addFormData))          
+    axios.post('http://47.74.86.28:5030/api/Product/ProductCreate',changeType(addFormData))          
     .then(res=>{   
       getData();
       alert('Add successfully')
+      setaddClick(false)
     })
     .catch(error=>{
       alert('Add unsuccessfully')
@@ -110,37 +134,93 @@ const Testing = () => {
   };
 
   const handleEditClick = (event, product) => {
-  
-    // event.preventDefault();
     setEditContactId(product.productId);
-    // console.log(product)
+    // console.log(product.productId)
     const formValues = {
       productName: product.productName,
       productCode: product.productCode,
       desciption: product.desciption,
       price: product.price,
       priceRrp: product.priceRrp,
-
+      // imageUrl : product.imageUrl,     
     };
 
     setEditFormData(formValues);
   };
+  const handleDeleteEdit =(event, product) =>{
+    setEditContactId(product.productId);
+    setremove(true)
+    console.log('delete')
+    // setDeleteFormData(formValues);
+  }
   const handleCancelClick = () => {
     setEditContactId(null);
+    setremove(false)
   };
+  // const handleSaveClick =(newData)=>{
+  //   // setEditContactId(newData.productId);
+  //   const dataUpdate = [...prodList];
+  //   const index = prodList.findIndex((product) => product.productId === editContactId)
+  //   console.log(index)
+  //   dataUpdate[index].productName= newData.productName;
+  //   dataUpdate[index].productCode= newData.productCode;
+  //   dataUpdate[index].desciption= newData.desciption;
+  //   dataUpdate[index].price= newData.price;
+  //   dataUpdate[index].priceRrp= newData.priceRrp;
+  //   // dataUpdate[index].imageUrl= newData.imageUrl;
+  //   // console.log(typeof(newData))
+  //   console.log(newData)
+  //   // console.log(dataUpdate[index].imageUrl)
+  //   axios.put('http://47.74.86.28:5030/api/Product/ProductUpdate',changeType(dataUpdate[index]))
+  //   .then (response=>{
+        
+  //       setProdList([...dataUpdate]); 
+  //       alert('Update successfully'); 
+  //       console.log(response.data)
+  //   })
+  //   .catch((error)=>{
+  //       alert('Unsuccessfully');
+  //       console.log(error.data)
+  //   })
+  //   setEditContactId(null) 
+  // }
+  // const handleSaveClick =(newData)=>{
+
+  //   const dataUpdate = [...prodList];
+  //   const index = prodList.findIndex((product) => product.productId === editContactId)
+  //   // dataUpdate[index] = newData;
+  //   dataUpdate[index].productName= newData.productName;
+  //   dataUpdate[index].productCode= newData.productCode;
+  //   dataUpdate[index].desciption= newData.desciption;
+  //   dataUpdate[index].price= newData.price;
+  //   dataUpdate[index].priceRrp= newData.priceRrp;
+  //   // dataUpdate[index]=newData
+  //   // console.log(index)
+  //   // console.log(dataUpdate)
+  //   axios.put('http://47.74.86.28:5030/api/Product/ProductUpdate',changeType(dataUpdate[index]))
+  //   .then (response=>{
+  //       setProdList([...dataUpdate]);  
+  //       alert('Update successfully'); 
+        
+  //   })
+  //   .catch((error)=>{
+  //       alert('Unsuccessfully');
+  //   })
+  //   setEditContactId(null) 
+  // }
   const handleSaveClick =(newData)=>{
 
     const dataUpdate = [...prodList];
     const index = prodList.findIndex((product) => product.productId === editContactId)
-    // dataUpdate[index] = newData;
+    console.log(newData)
     dataUpdate[index].productName= newData.productName;
     dataUpdate[index].productCode= newData.productCode;
     dataUpdate[index].desciption= newData.desciption;
     dataUpdate[index].price= newData.price;
     dataUpdate[index].priceRrp= newData.priceRrp;
-    console.log(index)
-    console.log(dataUpdate)
-    axios.put('http://206.189.39.185:5031/api/Product/ProductUpdate',changeType(dataUpdate[index]))
+    // console.log(index)
+    // console.log(dataUpdate[index])
+    axios.put('http://47.74.86.28:5030/api/Product/ProductUpdate',changeType(dataUpdate[index]))
     .then (response=>{
         setProdList([...dataUpdate]);  
         alert('Update successfully'); 
@@ -152,12 +232,13 @@ const Testing = () => {
     setEditContactId(null) 
   }
   
+  
   const handleDeleteClick = (oldData) => {
     const dataDelete = [prodList];
     const index = prodList.findIndex((prodList)=>prodList.productId===oldData.productId);
     dataDelete.splice(index, 1);
     const filteredData = prodList.filter( (e) => e.productId !== oldData.productId);
-    axios.delete('http://206.189.39.185:5031/api/Product/'+oldData.productId)
+    axios.delete('http://47.74.86.28:5030/api/Product/'+oldData.productId)
     .then(res=>{  
       setProdList([...filteredData])
       alert('Delete successfully')
@@ -170,72 +251,180 @@ const Testing = () => {
   const [addClick, setaddClick] = useState(null);
   const handleAdd=()=>{
     setaddClick(true)
+    console.log('abc')
   }
+  const handleCancel=()=>{
+    setaddClick(false)
+  }
+  const [Upload,setUpload] = useState([])
+
+  const onFileSelect =(e)=>{
+    e.preventDefault();
+    setUpload(e.target.files[0])
+  }
+  const onFileUpload = (e)=>{
+    e.preventDefault();
+    
+    let formdata = new FormData();
+    formdata.append("imageFile", Upload)
+      // Upload.name);
+      // console.log(formdata.get("imageFile"))
+      // axios.post("http://47.74.86.28:5030/api/Common/UploadImage",formdata)
+      //   .then (res=>{
+          // alert('Update successfully'); 
+          // setUpload(formdata); 
+          // handleSaveClick(handleSaveClick)
+          // console.log(res.data)
+          
+          editFormData.imageUrl = 'https://storage.googleapis.com/neptune_media/06819863-2ec8-4347-83bd-988750439499'
+          console.log(editFormData)
+          handleSaveClick(editFormData)
+        // })
+        // .catch((error)=>{
+        //     console.log(error)
+        //     alert('Unsuccessfully');
+        // })
+        
+        setEditContactId(null) 
+
+  };
+  // const changeImage=(e,file)=>{
+  //   // alert('change here')
+  //   e.preventDefault();
+  //   setUpload(e.target.files[0])
+  //   let newImage = new FormData();
+  //   newImage.append("imageFile",file);
+  //   axios.post("http://47.74.86.28:5030/api/Common/UploadImage",newImage)
+  //   .then (response=>{
+  //     alert('Update successfully'); 
+  //     // setProdList([...dataUpdate]); 
+  //   })
+  //   .catch((error)=>{
+  //       alert('Unsuccessfully');
+  //   })
+  //   setEditContactId(null) 
+  // }
+  const [filteredData, setFilteredData] = useState([]);
+  const [wordEntered, setWordEntered] = useState("");
+
+  const handleFilter = (event) => {
+    
+    const searchWord = event.target.value ;
+    setWordEntered(searchWord);
+    console.log(searchWord)
+    setFilteredData(prodList.filter(prodList=>prodList.productName.toLowerCase().includes(searchWord)))
+    // console.log()
+    // const newFilter = data.filter((value) => {
+    //   return value.title.toLowerCase().includes(searchWord.toLowerCase());
+    // });
+
+    // if (searchWord === "") {
+    //   setFilteredData([]);
+    // } else {
+    //   setFilteredData(newFilter);
+    // }
+  };
+
+  const clearInput = () => {
+    setFilteredData([]);
+    setWordEntered("");
+  };
   return (
     <div className="app-container">
-       {/* <p>Search</p> */}
-       <button onClick={handleAdd}>Add</button>
+       <div className='searchbar'>
+        <div> <h6 style={{fontweight :'500' , fontSize: '20px',
+        fontfamily: '"Roboto", "Helvetica", "Arial", sans-serif',lineheight: '24px',
+        letterspacing:'0.15px',margin:'20px 20px',}}>Editable Preview</h6>
+        </div>
+        <div style={{flex:'1 1 10%'}}></div>
+        <div className="searchInputs">
+          <div className="searchPart">
+            <span className="iconn"><i  className="bi bi-search" style={{height:'20px',width:'20px'}}></i></span>
+            <input className="input"
+              type="text"
+              placeholder='Search'
+              value={wordEntered}
+              onChange={handleFilter}/>     
+          </div>
+          <div  className=""><button  className="btn" onClick={handleAdd}><i className="bi bi-plus-square"></i></button>
+             </div>
+          {/* <input type="file" onChange={onFileUpload}/>
+          <button onClick={(e) => onFileUpload(e)}>UPLOAD</button>     */}
+        </div>
+    </div>
+       
        
       <form >
-        <table>
-          <thead>
+        <table >
+          <thead  >
             <tr>
-              <th>productName</th>
-              <th>productCode</th>
-              <th>desciption</th>
-              <th>price</th>
-              <th>priceRrp</th>
-              <th>Actions</th>
+              <th className="action">Actions</th>
+              <th className="image">Image</th>
+              <th className="name">ProductName</th>
+              <th className="code">ProductCode</th>
+              <th className="desciption">Desciption</th>
+              <th className="price">Price</th>
+              <th className="rrp">PriceRrp</th>
+              <th className="up">Uploadphoto</th>
+              
             </tr>
           </thead>
           <tbody>
-            {prodList.map((product) => (
-              <Fragment key={product.productId}>
+          {/* {paginatePosts.filter((prodList)=> prodList.productName.toLowerCase().includes(wordEntered)).map((product) =>( */}
+          {paginatePosts.map((product) =>(
+            <Fragment key={product.productId}>            
+              {editContactId === product.productId ? 
+              ( 
+                <EditableRow 
+                  editFormData={editFormData}
+                  product={product}
+                  handleEditFormChange={handleEditFormChange}
+                  handleSaveClick={handleSaveClick}
+                  handleCancelClick={handleCancelClick}
+                  handleDeleteClick={handleDeleteClick}
+                  remove ={remove}
+                  onFileSelect={onFileSelect}
+                  onFileUpload={onFileUpload}
+                
 
-                {editContactId === product.productId ? (
-                  <EditableRow 
-                    editFormData={editFormData}
-                    product={product}
-                    handleEditFormChange={handleEditFormChange}
-                    handleSaveClick={handleSaveClick}
-                    handleCancelClick={handleCancelClick}
-                  />
-                ) : (
-                  <ReadOnlyRow
+                />
+              ):(
+                
+                <ReadOnlyRow
                   
                     product={product}
                     handleEditClick={handleEditClick}
                     handleDeleteClick={handleDeleteClick}
                     handleAdd={addClick}
-                    handleAddFormChange={handleAddFormChange}
+                    handleDeleteEdit={handleDeleteEdit}
+                    wannadelete={wannadelete}
+                    // UploadImage={UploadImage}
+                    // makeSureDelete={makeSureDelete}
+                    // handleAddFormChange={handleAddFormChange}
                     
                   />
-                 
-                )}
-                {/* {addClick === true }(
-                  <ReadOnlyRow
-                  
-                    product={product}
-                    handleEditClick={handleEditClick}
-                    handleDeleteClick={handleDeleteClick}
-                    handleAdd={addClick}
-                    handleAddFormChange={handleAddFormChange}
-                    
-                  />
-
-                ) */}
-              </Fragment>
-            ))}
+              )}   
+          </Fragment> ))}
           </tbody>
+
+          <tfoot>
+              <Pagination
+                items={prodList.length}
+                pageSize={pageSize}
+                currentPage={currentPage}
+                onPageChange={handlePageChange}
+                handleAdd={addClick}
+                addFormData ={addFormData}
+                handleAddFormSubmit={handleAddFormSubmit}
+                handleCancel={handleCancel}
+                handleAddFormChange={handleAddFormChange}
+                />  
+          </tfoot>
         </table>
-      </form>
-     
-      <form >
-    
-        <button onClick={handleAddFormSubmit} type="button">Add</button>
-        <button  type="button">Cancel</button>
+        
       </form>
     </div>
+    
   );
 };
 

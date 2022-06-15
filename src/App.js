@@ -10,7 +10,7 @@ import Logout from './compoments/Logout';
 import {useState,useEffect} from 'react'
 import Order from './compoments/Order';
 import Testing from './compoments/Testing';
-
+import './compoments/Homepage.css'
 export function App() {
    const [auth, setauth] = useState(false);
    const logincheck = () => setauth(true);
@@ -34,7 +34,7 @@ export function App() {
     }
   },[])
   
-  console.log(window.location)
+
 
   const linkorder = true
   return (
@@ -66,7 +66,7 @@ export function App() {
                   }
                   {(ls||ss)&&
                     <li className="nav-item">
-                    <a className="nav-link" href='/productnew'>PRODUCTNEW</a>
+                    <a className="nav-link" href='/testing'>TESTING</a>
                     </li>                  
                   }
                   {(ls||ss)&&

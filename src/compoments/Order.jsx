@@ -28,7 +28,7 @@ export function Editable () {
     const [prodList, setProdList] = useState([]);
     const [prodList2, setProdList2] = useState([]);    
     useEffect(() => {
-        axios.get('http://206.189.39.185:5031/api/Order/GetOrderList/userId/status?=9')      
+        axios.get('http://47.74.86.28:5030/api/Product')      
         .then(res => {
             setLoading(false)
             setProdList(res.data.data)      
@@ -79,8 +79,7 @@ export function Editable () {
       <div>
         <input
           type="file" className="form" 
-          style={{right:'0px' },
-                { positions:'absolute'}}
+          style={{right:'0px' ,positions:'absolute'}}
           onChange={(e) => {const file = e.target.files[0];readExcel(file);}}/>
         <button onClick={downloadExcel}> export</button> 
       </div>
