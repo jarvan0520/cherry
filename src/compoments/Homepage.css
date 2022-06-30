@@ -6,10 +6,10 @@
 .image{width: 10%;}
 .name{width: 20%;  }
 .code{width: 15%;}
-.desciption{width: 15%;}
-.price{width: 15%;}
-.rrp{width: 15%;}
-.up{width: 10%;}
+.desciption{width: 10%;}
+.price{width: 10%;}
+.rrp{width: 10%;}
+.up{width: 20%;}
 .searchbar{
    
     display: flex;

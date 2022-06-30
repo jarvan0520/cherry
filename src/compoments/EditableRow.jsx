@@ -10,7 +10,7 @@ const EditableRow = ({
   handleEditFormSubmit,
   handleDeleteClick,
   remove,
-  onFileSelect,
+  onFileChange,
   onFileUpload
 }) => {
   return (
@@ -44,7 +44,6 @@ const EditableRow = ({
            <input type="file"  
           name="imageUrl"
           onChange={(e)=>onFileSelect(e)} 
-          
           />
          <button onClick={(e)=>onFileUpload(e,editFormData)}>UPLOAD</button> 
         </div> */}
@@ -53,12 +52,10 @@ const EditableRow = ({
       (<td >
       
         <div style={{width:'70px',height:'70px'}} >
-        
-        {/* <input type="file" onChange={(e)=>onFileSelect(e)} value={editFormData.imageUrl}/>
-        <button onClick={(e)=>onFileUpload(e,editFormData)}>UPLOAD</button> */}
+      
         </div>
         
-        <div>
+        {/* <div>
           <input type="file"  
           name="imageUrl"
           onChange={(e)=>onFileSelect(e)} 
@@ -66,8 +63,8 @@ const EditableRow = ({
           />
          <button onClick={(e)=>onFileUpload(e)}>UPLOAD</button> 
           
-          {/* <button onClick={(e)=>onFileUpload(e,editFormData)}>UPLOAD</button> */}
-        </div>
+          <button onClick={(e)=>onFileUpload(e,editFormData)}>UPLOAD</button>
+        </div> */}
         
       </td>)}
       
@@ -103,7 +100,7 @@ const EditableRow = ({
           type="number"
           required="required"      
           name="price"
-          value={editFormData.price}
+          value={editFormData.price||""}
           onChange={handleEditFormChange}
         ></input>
       </td>
@@ -115,6 +112,19 @@ const EditableRow = ({
           value={editFormData.priceRrp}
           onChange={handleEditFormChange}
         ></input>
+      </td>
+      <td>
+        {/* <input type="file"  
+        name="imageUrl"
+        onChange={(e)=>onFileSelect(e)} 
+        />
+        <button onClick={(e)=>onFileUpload(e,editFormData)}>UPLOAD</button>  */}
+        <input type="file"  
+            name="imageUrl"
+            onChange={onFileChange}/>
+            {/* <button onClick={(e)=>onFileUpload(e,editFormData)}>UPLOAD</button> */}
+            <button onClick={onFileUpload}>UPLOAD</button> 
+      
       </td>
       
     </tr>)}

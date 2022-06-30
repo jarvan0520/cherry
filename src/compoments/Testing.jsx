@@ -21,22 +21,20 @@ const Testing = ({ placeholder, data }) => {
     const [postsPerPage] = useState(5);
     const [prodList, setProdList] = useState([])
     
-    useEffect(
-      () => {getData();}, [])
+    useEffect(() => {
+      getData();
+    }, [])
 
     const getData =(newdata)=>{
       axios.get('http://47.74.86.28:5030/api/Product')
         .then(res => {
             let parsedData = res.data.data;
-            for(let item of parsedData){
-              item.imageUrl = parse(item.imageUrl)
-            }
+            // for(let item of parsedData){
+            //   item.imageUrl = parse(item.imageUrl)
+            // }
             console.log(res.data.data)
-            // console.log(parsedData)
             setProdList(res.data.data)
-            setPosts(res.data.data);
-            
-            
+            // setPosts(res.data.data);
            
         })
         .catch(error => {
@@ -79,7 +77,7 @@ const Testing = ({ placeholder, data }) => {
     desciption: "",
     price: "",
     priceRrp: "",
-   
+    imageUrl:""
 
   });
 
@@ -89,6 +87,7 @@ const Testing = ({ placeholder, data }) => {
     desciption: "",
     price: "",
     priceRrp: "",
+    imageUrl:"",
    
   });
   
@@ -96,7 +95,7 @@ const Testing = ({ placeholder, data }) => {
   const changeType  = newdata => {
     newdata.price = parseInt(newdata.price)
     newdata.priceRrp = parseInt(newdata.priceRrp)
-    
+    // newdata.imageUrl  = `{"url":"${newdata.imageUrl}"}`
    return newdata
  }
 
@@ -118,7 +117,6 @@ const Testing = ({ placeholder, data }) => {
     const newFormData = { ...editFormData };
     newFormData[fieldName] = fieldValue;
     setEditFormData(newFormData);
-    // console.log(editFormData)
   };
 
   const handleAddFormSubmit = (event) => {
@@ -142,11 +140,12 @@ const Testing = ({ placeholder, data }) => {
       desciption: product.desciption,
       price: product.price,
       priceRrp: product.priceRrp,
-      // imageUrl : product.imageUrl,     
+      imageUrl : product.imageUrl,     
     };
 
     setEditFormData(formValues);
   };
+
   const handleDeleteEdit =(event, product) =>{
     setEditContactId(product.productId);
     setremove(true)
@@ -184,30 +183,7 @@ const Testing = ({ placeholder, data }) => {
   //   })
   //   setEditContactId(null) 
   // }
-  // const handleSaveClick =(newData)=>{
 
-  //   const dataUpdate = [...prodList];
-  //   const index = prodList.findIndex((product) => product.productId === editContactId)
-  //   // dataUpdate[index] = newData;
-  //   dataUpdate[index].productName= newData.productName;
-  //   dataUpdate[index].productCode= newData.productCode;
-  //   dataUpdate[index].desciption= newData.desciption;
-  //   dataUpdate[index].price= newData.price;
-  //   dataUpdate[index].priceRrp= newData.priceRrp;
-  //   // dataUpdate[index]=newData
-  //   // console.log(index)
-  //   // console.log(dataUpdate)
-  //   axios.put('http://47.74.86.28:5030/api/Product/ProductUpdate',changeType(dataUpdate[index]))
-  //   .then (response=>{
-  //       setProdList([...dataUpdate]);  
-  //       alert('Update successfully'); 
-        
-  //   })
-  //   .catch((error)=>{
-  //       alert('Unsuccessfully');
-  //   })
-  //   setEditContactId(null) 
-  // }
   const handleSaveClick =(newData)=>{
 
     const dataUpdate = [...prodList];
@@ -218,7 +194,8 @@ const Testing = ({ placeholder, data }) => {
     dataUpdate[index].desciption= newData.desciption;
     dataUpdate[index].price= newData.price;
     dataUpdate[index].priceRrp= newData.priceRrp;
-    // console.log(index)
+    dataUpdate[index].imageUrl=newData.imageUrl
+    console.log(changeType(dataUpdate[index]))
     // console.log(dataUpdate[index])
     axios.put('http://47.74.86.28:5030/api/Product/ProductUpdate',changeType(dataUpdate[index]))
     .then (response=>{
@@ -258,7 +235,7 @@ const Testing = ({ placeholder, data }) => {
   }
   const [Upload,setUpload] = useState([])
 
-  const onFileSelect =(e)=>{
+  const onFileChange =(e)=>{
     e.preventDefault();
     setUpload(e.target.files[0])
   }
@@ -268,22 +245,19 @@ const Testing = ({ placeholder, data }) => {
     let formdata = new FormData();
     formdata.append("imageFile", Upload)
       // Upload.name);
-      // console.log(formdata.get("imageFile"))
-      // axios.post("http://47.74.86.28:5030/api/Common/UploadImage",formdata)
-      //   .then (res=>{
-          // alert('Update successfully'); 
-          // setUpload(formdata); 
-          // handleSaveClick(handleSaveClick)
-          // console.log(res.data)
-          
-          editFormData.imageUrl = 'https://storage.googleapis.com/neptune_media/06819863-2ec8-4347-83bd-988750439499'
+      // console.log(Upload)
+      axios.post("http://47.74.86.28:5030/api/Common/UploadImage",formdata)
+        .then (res=>{
+          setUpload(formdata); 
+          console.log(res.data)
+          editFormData.imageUrl = res.data
           console.log(editFormData)
           handleSaveClick(editFormData)
-        // })
-        // .catch((error)=>{
-        //     console.log(error)
-        //     alert('Unsuccessfully');
-        // })
+        })
+        .catch((error)=>{
+            console.log(error)
+            alert('Unsuccessfully');
+        })
         
         setEditContactId(null) 
 
@@ -357,17 +331,33 @@ const Testing = ({ placeholder, data }) => {
       <form >
         <table >
           <thead  >
-            <tr>
-              <th className="action">Actions</th>
-              <th className="image">Image</th>
-              <th className="name">ProductName</th>
-              <th className="code">ProductCode</th>
-              <th className="desciption">Desciption</th>
-              <th className="price">Price</th>
-              <th className="rrp">PriceRrp</th>
-              <th className="up">Uploadphoto</th>
               
-            </tr>
+              {editContactId === null   ? (
+                <tr>
+                <th className="action">Actions</th>
+                <th className="image">Image</th>
+                <th className="name">ProductName</th>
+                <th className="code">ProductCode</th>
+                <th className="desciption">Desciption</th>
+                <th className="price">Price</th>
+                <th className="rrp">PriceRrp</th>
+               
+              </tr>
+              ):(
+                <tr>
+                <th className="action">Actions</th>
+                <th className="image">Image</th>
+                <th className="name">ProductName</th>
+                <th className="code">ProductCode</th>
+                <th className="desciption">Desciption</th>
+                <th className="price">Price</th>
+                <th className="rrp">PriceRrp</th>
+                <th className="up">Uploadphoto</th>     
+                </tr>
+              )}
+              
+          
+            
           </thead>
           <tbody>
           {/* {paginatePosts.filter((prodList)=> prodList.productName.toLowerCase().includes(wordEntered)).map((product) =>( */}
@@ -383,7 +373,7 @@ const Testing = ({ placeholder, data }) => {
                   handleCancelClick={handleCancelClick}
                   handleDeleteClick={handleDeleteClick}
                   remove ={remove}
-                  onFileSelect={onFileSelect}
+                  onFileChange={onFileChange}
                   onFileUpload={onFileUpload}
                 
 
@@ -398,7 +388,8 @@ const Testing = ({ placeholder, data }) => {
                     handleAdd={addClick}
                     handleDeleteEdit={handleDeleteEdit}
                     wannadelete={wannadelete}
-                    // UploadImage={UploadImage}
+                    onFileChange={onFileChange}
+                    onFileUpload={onFileUpload}
                     // makeSureDelete={makeSureDelete}
                     // handleAddFormChange={handleAddFormChange}
                     
