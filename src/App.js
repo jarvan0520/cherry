@@ -2,7 +2,7 @@ import React  from 'react';
 import './App.css';
 import { BrowserRouter as Router,Route,Routes} from 'react-router-dom'
 import Product from './compoments/Product';
-import ProductNew from './compoments/ProductNew'
+// import ProductNew from './compoments/ProductNew'
 import Login from './compoments/Login';
 import Home from './compoments/Home'
 import Register from './compoments/Register';
@@ -33,10 +33,6 @@ export function App() {
       ss && JSON.stringify(ss) ? setauth(true) : setauth(false);
     }
   },[])
-  
-
-
-  const linkorder = true
   return (
     
     <div>
@@ -59,11 +55,11 @@ export function App() {
                         <a className="nav-link" href="/register">REGISTER</a>
                         </li>                           
                   }
-                  {(ls||ss)&&
+                  {/* {(ls||ss)&&
                       <li className="nav-item">
                       <a className="nav-link" href='/product'>PRODUCT</a>
                       </li>                  
-                  }
+                  } */}
                   {(ls||ss)&&
                     <li className="nav-item">
                     <a className="nav-link" href='/testing'>TESTING</a>
@@ -95,12 +91,12 @@ export function App() {
             element={<Product/>}
             />
           )} 
-          { auth && (
+          {/* { auth && (
             <Route 
             path = "/productnew" 
             element={<ProductNew/>}
             />
-          )} 
+          )}  */}
           { auth && (
             <Route 
             path = "/testing" 

@@ -3,13 +3,20 @@
     text-align: center  
 }
 .input:hover{background-color:none;}
-.image{width: 10%;}
-.name{width: 20%;  }
-.code{width: 15%;}
-.desciption{width: 10%;}
-.price{width: 10%;}
-.rrp{width: 10%;}
-.up{width: 20%;}
+.image{width: 10%;
+    text-align: center}
+.name{width: 20%;
+    text-align: center  }
+.code{width: 13%;
+    text-align: center}
+.desciption{width: 13%;
+    text-align: center}
+.price{width: 13%;
+    text-align: center}
+.rrp{width: 13%;
+    text-align: center}
+.up{width: 14%;
+    text-align: center}
 .searchbar{
    
     display: flex;
@@ -36,9 +43,7 @@
      display: inline-flex;
      /* border-bottom: 2px solid #3f51b5; */
 }
-.addButton{
- 
-}
+
 .iconn{
     /* display: flex; */
         right: 50px;
@@ -55,6 +60,7 @@ height: 50px;
 tr,td,th {
 padding: 8px;
 /* padding-right: 80px; */
+text-align: center;
 border-bottom: 1px solid #ddd  !important;
 
 }

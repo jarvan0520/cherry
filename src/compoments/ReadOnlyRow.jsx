@@ -1,31 +1,31 @@
 
-import React, { useState, Fragment,useEffect} from "react";
+import React  from "react";
 
 import './Homepage.css';
          
-const Pagination = ({ postsPerPage, 
-                      totalPosts, 
-                      paginate }) => {
-  const pageNumbers = [];
+// const Pagination = ({ postsPerPage, 
+//                       totalPosts, 
+//                       paginate }) => {
+//   const pageNumbers = [];
            
-  for (let i = 1; i <= Math.ceil(totalPosts / postsPerPage); i++) {
-    pageNumbers.push(i);
-  }
+//   for (let i = 1; i <= Math.ceil(totalPosts / postsPerPage); i++) {
+//     pageNumbers.push(i);
+//   }
 
-  return (
-    <nav>
-      <ul className='pagination'>
-        {pageNumbers.map(number => (
-          <li key={number} className='page-item'>
-            <a onClick={() => paginate(number)} href='!#' className='page-link'>
-              {number}
-            </a>
-          </li>
-        ))}
-      </ul>
-    </nav>
-  );
-};
+//   return (
+//     <nav>
+//       <ul className='pagination'>
+//         {pageNumbers.map(number => (
+//           <li key={number} className='page-item'>
+//             <a onClick={() => paginate(number)} href='!#' className='page-link'>
+//               {number}
+//             </a>
+//           </li>
+//         ))}
+//       </ul>
+//     </nav>
+//   );
+// };
 
 const ReadOnlyRow = (
   { product, 
@@ -95,12 +95,6 @@ const ReadOnlyRow = (
         <td>{product.desciption}</td>
         <td>{product.price}</td>
         <td>{product.priceRrp}</td>
-        {/* <td><input type="file"  
-            name="imageUrl"
-            onChange={onFileSelect}/>
-            <button onClick={(e)=>onFileUpload(e,editFormData)}>UPLOAD</button>
-            <button onClick={onFileUpload}>UPLOAD</button> 
-         </td> */}
       </tr>
       )}
 

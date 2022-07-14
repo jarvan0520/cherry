@@ -10,9 +10,12 @@ const Pagination = ({ items,
                     addFormData,
                     handleCancel,
                     handleAdd}) => {
+  
   const pageCount = items / pageSize;
+  
   if (Math.ceil(pageCount) === 1) return null;
   const pages = _.range(1, pageCount + 1);
+  // console.log(pages)
   return (
     <>
        {handleAdd === true ? (
@@ -91,38 +94,38 @@ const Pagination = ({ items,
                  page === currentPage ? "page-item active" : "page-item"
                }
              >
-               <a
+               {/* <a
                  style={{ cursor: "pointer" }}
                  onClick={() => onPageChange(page)}
                  className="page-link"
                >
                  {page}
-               </a>
+               </a> */}
              </li>
            ))}
          </td>
        </tr>
-    </React.Fragment>
-       ):(<tr>
-        <td className="pagination">
-          {pages.map((page) => (
-            <li
-              key={page}
-              className={
-                page === currentPage ? "page-item active" : "page-item"
-              }
-            >
-              <a
-                style={{ cursor: "pointer" }}
-                onClick={() => onPageChange(page)}
-                className="page-link"
+      </React.Fragment>
+        ):(<tr>
+          <td className="pagination">
+            {pages.map((page) => (
+              <li
+                key={page}
+                className={
+                  page === currentPage ? "page-item active" : "page-item"
+                }
               >
-                {page}
-              </a>
-            </li>
-          ))}
-        </td>
-      </tr>)}
+                <span
+                  style={{ cursor: "pointer" }}
+                  onClick={() => onPageChange(page)}
+                  className="page-link"
+                >
+                  {page}
+                </span>
+              </li>
+            ))}
+          </td>
+        </tr>)}
         
     </>
   );

@@ -3,10 +3,8 @@ import MaterialTable from 'material-table';
 import  { useState, useEffect } from 'react';
 import React from "react";
 import XLSX from 'xlsx';
-import { positions } from "@mui/system";
 
 export function Editable () {  
-  
     const [columns] = useState([
         { title: 'ProductName', field: 'productName' },
         { title: 'ProductCode', field: 'productCode' },
@@ -44,7 +42,6 @@ export function Editable () {
       const promise = new Promise((resolve, reject) => {
         const fileReader = new FileReader();
         fileReader.readAsArrayBuffer(file);
-  
         fileReader.onload = (e) => {
           const bufferArray = e.target.result;
           const wb = XLSX.read(bufferArray, { type: "buffer" });
@@ -73,7 +70,6 @@ export function Editable () {
       XLSX.write(workBook,{bookType:"xlsx",type:"binary"})
       XLSX.writeFile(workBook,"Order.xlsx")
     }
-
     return (  
         <>
       <div>
@@ -90,8 +86,7 @@ export function Editable () {
        columns={columns}     
        data = {prodList2?  prodList.concat(prodList2) : prodList}
        isLoading={loading}
-       button={readExcel}
-       
+       button={readExcel}    
        />
       </div>
     </>

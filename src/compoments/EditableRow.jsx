@@ -1,6 +1,6 @@
 import React from "react";
 import './Homepage.css';
-
+ 
 const EditableRow = ({
   editFormData,
   product,
@@ -11,20 +11,24 @@ const EditableRow = ({
   handleDeleteClick,
   remove,
   onFileChange,
-  onFileUpload
+  onFileUpload,
+  Upload
 }) => {
+  const uploadFile=()=>{
+    document.getElementById('selectFile').click()
+  }
   return (
     <React.Fragment>
       {remove === true ? (
       <tr>
       <td className="button">
-        <button className='btn' type="button" onClick={()=>handleDeleteClick(product)}><i class="bi bi-check-lg"></i></button>
+        <button className='btn' type="button" onClick={()=>handleDeleteClick(product)}><i className="bi bi-check-lg"></i></button>
         <button className='btn' type="button" onClick={handleCancelClick}>
         <i className="bi bi-x-lg"></i>      
         </button>
       </td>
       {product.imageUrl  ? ( <td><img style={{width:'70px',height:'70px'}} src={product.imageUrl} alt=''/></td>):(<td ><div style={{width:'70px',height:'70px'}}></div></td>)}
-      <td className='note' colSpan={5}><h6>Are you sure you want to delete this row? </h6></td>
+      <td className='note' colSpan={6}><h5>Are you sure you want to delete this row? </h5></td>
       
     </tr>
 
@@ -40,31 +44,10 @@ const EditableRow = ({
       {product.imageUrl ? 
       ( <td>
         <img style={{width:'70px',height:'70px'}} src={product.imageUrl} alt=''/>
-        {/* <div>
-           <input type="file"  
-          name="imageUrl"
-          onChange={(e)=>onFileSelect(e)} 
-          />
-         <button onClick={(e)=>onFileUpload(e,editFormData)}>UPLOAD</button> 
-        </div> */}
-        
         </td>):
       (<td >
-      
         <div style={{width:'70px',height:'70px'}} >
-      
         </div>
-        
-        {/* <div>
-          <input type="file"  
-          name="imageUrl"
-          onChange={(e)=>onFileSelect(e)} 
-          
-          />
-         <button onClick={(e)=>onFileUpload(e)}>UPLOAD</button> 
-          
-          <button onClick={(e)=>onFileUpload(e,editFormData)}>UPLOAD</button>
-        </div> */}
         
       </td>)}
       
@@ -114,17 +97,12 @@ const EditableRow = ({
         ></input>
       </td>
       <td>
-        {/* <input type="file"  
-        name="imageUrl"
-        onChange={(e)=>onFileSelect(e)} 
-        />
-        <button onClick={(e)=>onFileUpload(e,editFormData)}>UPLOAD</button>  */}
-        <input type="file"  
-            name="imageUrl"
-            onChange={onFileChange}/>
-            {/* <button onClick={(e)=>onFileUpload(e,editFormData)}>UPLOAD</button> */}
-            <button onClick={onFileUpload}>UPLOAD</button> 
-      
+       
+        <button onClick={uploadFile} style={{border:"none",backgroundColor:"white",textAlign:"center",paddingRight:"10px"}}><i className="bi bi-upload" style={{backgroundColor:"white",fontSize:"20px"}}></i></button>
+        <input id="selectFile" type="file" name="imageUrl"style={{display:"none"}} onChange={onFileChange}/>
+          
+        {/* <button onClick={onFileUpload} style={{backgroundColor:"blue",color:"white",borderRadius:"80%"}}>Submit</button>  */}
+        <button onClick={onFileUpload} style={{background: "#016ABC",color: "#fff",border: "1px solid #eee",borderRadius: "20px",boxShadow: "none",textAlign:"center"}}>Submit</button> 
       </td>
       
     </tr>)}
