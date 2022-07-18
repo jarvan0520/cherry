@@ -1,31 +1,6 @@
 
 import React  from "react";
-
 import './Homepage.css';
-         
-// const Pagination = ({ postsPerPage, 
-//                       totalPosts, 
-//                       paginate }) => {
-//   const pageNumbers = [];
-           
-//   for (let i = 1; i <= Math.ceil(totalPosts / postsPerPage); i++) {
-//     pageNumbers.push(i);
-//   }
-
-//   return (
-//     <nav>
-//       <ul className='pagination'>
-//         {pageNumbers.map(number => (
-//           <li key={number} className='page-item'>
-//             <a onClick={() => paginate(number)} href='!#' className='page-link'>
-//               {number}
-//             </a>
-//           </li>
-//         ))}
-//       </ul>
-//     </nav>
-//   );
-// };
 
 const ReadOnlyRow = (
   { product, 
@@ -90,16 +65,14 @@ const ReadOnlyRow = (
         {product.imageUrl  ? 
         ( <td><img style={{width:'70px',height:'70px'}} src={product.imageUrl} alt=''/></td>):
         (<td ><div style={{width:'70px',height:'70px'}}></div></td>)}
-        <td>{product.productName}</td>
-        <td>{product.productCode}</td>
-        <td>{product.desciption}</td>
-        <td>{product.price}</td>
-        <td>{product.priceRrp}</td>
+        <td>{product.productName||""}</td>
+        <td>{product.productCode||""}</td>
+        <td>{product.desciption||""}</td>
+        <td>{product.price||""}</td>
+        <td>{product.priceRrp||""}</td>
       </tr>
       )}
-
     </React.Fragment>
   );
 };
-
 export default ReadOnlyRow;

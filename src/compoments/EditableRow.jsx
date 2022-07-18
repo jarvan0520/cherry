@@ -56,7 +56,7 @@ const EditableRow = ({
           type="text"
           required="required"
           name="productName"
-          value={editFormData.productName}
+          value={editFormData.productName||""}
           onChange={handleEditFormChange}
         ></input>
       </td>
@@ -65,7 +65,7 @@ const EditableRow = ({
           type="text"
           required="required" 
           name="productCode"
-          value={editFormData.productCode}
+          value={editFormData.productCode||""}
           onChange={handleEditFormChange}
           ></input>
       </td>
@@ -74,7 +74,7 @@ const EditableRow = ({
           type="text"
           required="required"
           name="desciption"
-          value={editFormData.desciption}
+          value={editFormData.desciption||""}
           onChange={handleEditFormChange}
         ></input>
       </td>
@@ -92,7 +92,7 @@ const EditableRow = ({
          type="number"
           required="required"
           name="priceRrp"
-          value={editFormData.priceRrp}
+          value={editFormData.priceRrp||""}
           onChange={handleEditFormChange}
         ></input>
       </td>

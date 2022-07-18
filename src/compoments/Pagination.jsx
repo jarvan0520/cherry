@@ -10,12 +10,9 @@ const Pagination = ({ items,
                     addFormData,
                     handleCancel,
                     handleAdd}) => {
-  
   const pageCount = items / pageSize;
-  
   if (Math.ceil(pageCount) === 1) return null;
   const pages = _.range(1, pageCount + 1);
-  // console.log(pages)
   return (
     <>
        {handleAdd === true ? (
@@ -94,13 +91,13 @@ const Pagination = ({ items,
                  page === currentPage ? "page-item active" : "page-item"
                }
              >
-               {/* <a
+               <span
                  style={{ cursor: "pointer" }}
                  onClick={() => onPageChange(page)}
                  className="page-link"
                >
                  {page}
-               </a> */}
+               </span>
              </li>
            ))}
          </td>
@@ -125,8 +122,7 @@ const Pagination = ({ items,
               </li>
             ))}
           </td>
-        </tr>)}
-        
+        </tr>)}  
     </>
   );
 };

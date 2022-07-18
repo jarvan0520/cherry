@@ -3,7 +3,6 @@ import ReadOnlyRow from "./ReadOnlyRow";
 import EditableRow from "./EditableRow";
 import Pagination from './Pagination';
 import axios  from "axios";
-// import  {paginate}  from "./paginate";
 import './Homepage.css';
 import _ from "lodash";
 
@@ -11,7 +10,7 @@ const Testing = ({ placeholder, data }) => {
   const pageSize = 5;
   const [currentPage, setCurrentPage] = useState(1);
   const [prodList, setProdList] = useState([])
-  
+  const [filteredData, setFilteredData] = useState([]);
   useEffect(() => {
     getData();
   }, [])
@@ -24,8 +23,7 @@ const Testing = ({ placeholder, data }) => {
           console.log(error);      
       });
   }
-  const [filteredData, setFilteredData] = useState([]);
-  const [paginatePosts, setpaginatePosts] = useState([]);
+
   const [wordEntered, setWordEntered] = useState("");
   const handlePageChange = (page) => {
     setCurrentPage(page);
@@ -120,7 +118,6 @@ const Testing = ({ placeholder, data }) => {
   const handleSaveClick =(newData)=>{
     const dataUpdate = [...prodList];
     const index = prodList.findIndex((product) => product.productId === editContactId)
-    console.log(newData)
     dataUpdate[index].productName= newData.productName;
     dataUpdate[index].productCode= newData.productCode;
     dataUpdate[index].desciption= newData.desciption;
@@ -189,7 +186,6 @@ const Testing = ({ placeholder, data }) => {
       return prodList
     }
     else{
-      console.log(filteredData)
       return filteredData
     }
   }
@@ -200,15 +196,17 @@ const Testing = ({ placeholder, data }) => {
     else{
       return paginate(filteredData, currentPage, pageSize)
     }
-    
-    
   }
   const handleFilter = (event) => {
     const searchWord = event.target.value ;
     if (searchWord === "") {
       setFilteredData(prodList)}
-    setWordEntered(searchWord);   
-    setFilteredData(prodList.filter(prodList=>prodList.productName.toLowerCase().includes(searchWord)))
+      setWordEntered(searchWord);   
+      setCurrentPage(1)
+      const name = prodList.filter(prodList=>prodList.productName.toLowerCase().includes(searchWord))
+      const desc = prodList.filter(prodList=>prodList.desciption.includes(searchWord))
+      const final = name.concat(desc.filter((item)=>name.indexOf(item)<0))
+      setFilteredData(final)
    
   };
   
@@ -242,7 +240,7 @@ const Testing = ({ placeholder, data }) => {
                 <th className="image">Image</th>
                 <th className="name">ProductName</th>
                 <th className="code">ProductCode</th>
-                <th className="desciption">Desciption</th>
+                <th className="desciption">Description</th>
                 <th className="price">Price</th>
                 <th className="rrp">PriceRrp</th>
                 <th className="up">Uploadphoto</th>        
@@ -253,7 +251,7 @@ const Testing = ({ placeholder, data }) => {
                 <th className="image">Image</th>
                 <th className="name">ProductName</th>
                 <th className="code">ProductCode</th>
-                <th className="desciption">Desciption</th>
+                <th className="desciption">Description</th>
                 <th className="price">Price</th>
                 <th className="rrp">PriceRrp</th>
                 <th className="up">Uploadphoto</th>     
