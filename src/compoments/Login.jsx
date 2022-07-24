@@ -31,7 +31,6 @@ import { useNavigate } from 'react-router-dom'
     axios.post('http://47.74.86.28:5030/api/User/UserLogin', state) 
       .then(response => {     
         const token = JSON.stringify(response.data.data.token);
-        
           if(rememberMe){          
             localStorage.setItem('username', username ? username : "");
             localStorage.setItem('token', token);
@@ -39,13 +38,13 @@ import { useNavigate } from 'react-router-dom'
             localStorage.setItem('logintime', logintime);
             console.log(localStorage.token)
             authenticate()
-            navigate("/product")  
+            navigate("/testing")  
           }
           else {
             sessionStorage.setItem('username', username ? username : "");
             sessionStorage.setItem('token', token);
             authenticate()
-            navigate("/product")
+            navigate("/testing")
           }
       })
       .catch((error) => {

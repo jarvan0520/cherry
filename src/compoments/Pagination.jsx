@@ -9,13 +9,20 @@ const Pagination = ({ items,
                     handleAddFormSubmit,
                     addFormData,
                     handleCancel,
-                    handleAdd}) => {
+                    handleAdd,
+                    uploadFile,
+                    onFileChange,
+                    UploadOrNot,
+                    onFileCancel,
+                    file,
+                    onFileSubmit,
+                    addClick}) => {
   const pageCount = items / pageSize;
   if (Math.ceil(pageCount) === 1) return null;
   const pages = _.range(1, pageCount + 1);
   return (
     <>
-       {handleAdd === true ? (
+       {addClick === true ? (
            <React.Fragment>
             <tr>
                 <td className='button'>
@@ -32,7 +39,7 @@ const Pagination = ({ items,
                     <i className="bi bi-x-lg"></i>
                 </button>
                 </td>
-                <td><p style={{height:'70px',width:'70px'}}>image </p></td>
+                <td><img style={{height:'70px',width:'70px',marginBottom:"0px"}}src={file}></img></td>
                <td>
                  <input
                    type="text"
@@ -58,28 +65,32 @@ const Pagination = ({ items,
                    required="required"   
                    value={addFormData.desciption}                 
                    onChange={handleAddFormChange}
-                 />
-                 </td>
-                 <td> 
-                     <input
-                       type="number"
-                       name="price"
-                       required="required"  
-                       value={addFormData.price}                       
-                       onChange={handleAddFormChange}
-                     />
-                 </td>
-                 <td> 
-                   <input
-                     type="number"
-                     name="priceRrp"
-                     required="required"
-                     value={addFormData.priceRrp}  
-                     onChange={handleAddFormChange}
-                   />
-                 </td>
-                 <td><button>upload</button></td>
-                 
+                />
+                </td>
+                <td> 
+                  <input
+                    type="number"
+                    name="priceRrp"
+                    required="required"
+                    value={addFormData.priceRrp}  
+                    onChange={handleAddFormChange}
+                  />
+                </td>
+                <td>
+                  <input id="selectFile" type="file" name="imageUrl"style={{display:"none"}} onChange={onFileChange}/>
+                  {UploadOrNot === null ?
+                    (
+                      <i  id="select"className="bi bi-upload" style={{backgroundColor:"white",fontSize:"20px"}} onClick={uploadFile}></i>
+                    ):
+                    (<div>
+                      <button onClick={onFileSubmit} style={{background: "#016ABC",color: "#fff",border: "1px solid #eee",borderRadius: "20px",boxShadow: "none",textAlign:"center"}} >Submit</button> 
+                      <button onClick={onFileCancel} style={{background: "#016ABC",color: "#fff",border: "1px solid #eee",borderRadius: "20px",boxShadow: "none",textAlign:"center"}}>Cancel</button>
+                    </div>)
+                    }
+                  
+                </td>  
+
+                             
            </tr> 
            <></>    
        <tr>

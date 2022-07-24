@@ -5,27 +5,13 @@ import './Homepage.css';
 const ReadOnlyRow = (
   { product, 
     handleEditClick, 
-    handleDeleteClick,
     handleDeleteEdit,
-    handleAdd ,
-    handleAddFormChange,
-    postsPerPage, 
-    totalPosts, 
-    paginate,
-    wannadelate,
-    makeSureDelete,
     remove,
-    UploadImage,
-    onFileSelect,
-    onFileUpload,
-    editFormData,
-    handleEditFormChange
   
   }) => { 
   return (
     <React.Fragment>
        {remove === true ?(
-
         <tr >
           <td className="button">
             <button className="btn"
@@ -34,8 +20,7 @@ const ReadOnlyRow = (
               <i className="bi bi-pencil-fill"></i>
             </button>
             <button className="btn" type="button" 
-            onClick={(event) => handleDeleteEdit(event, product)}>
-            
+            onClick={(event) => handleDeleteEdit(event, product)}>  
             <i className="bi bi-trash"></i>
             </button>
           </td>
@@ -45,7 +30,6 @@ const ReadOnlyRow = (
           <td>{product.productName}</td>
           <td>{product.productCode}</td>
           <td>{product.desciption}</td>
-          <td>{product.price}</td>
           <td>{product.priceRrp}</td>
         </tr>
       ):(
@@ -57,8 +41,7 @@ const ReadOnlyRow = (
             <i className="bi bi-pencil-fill"></i>
           </button>
           <button className="btn" type="button" 
-          onClick={(event) => handleDeleteEdit(event, product)}>
-          
+          onClick={(event) => handleDeleteEdit(event, product)}>  
           <i className="bi bi-trash"></i>
           </button>
         </td>
@@ -68,7 +51,6 @@ const ReadOnlyRow = (
         <td>{product.productName||""}</td>
         <td>{product.productCode||""}</td>
         <td>{product.desciption||""}</td>
-        <td>{product.price||""}</td>
         <td>{product.priceRrp||""}</td>
       </tr>
       )}

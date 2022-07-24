@@ -23,22 +23,22 @@ const Testing = ({ placeholder, data }) => {
           console.log(error);      
       });
   }
-
+  const [isPriceSorted,setIsPriceSorted]=useState(null)
+  const [isNameSorted,setIsNameSorted]=useState(null)
+ 
   const [wordEntered, setWordEntered] = useState("");
   const handlePageChange = (page) => {
     setCurrentPage(page);
   };
-
+  const  [Upload,setUpload] = useState()
+  const [file, setFile] = useState();
   const [editContactId, setEditContactId] = useState(null);
-  const [remove , setremove] = useState([null])
-  const wannadelete =()=>{
-    setremove(true)
-  };
+  const [remove , setremove] = useState(null)
+  const [addClick, setaddClick] = useState(null);
   const [addFormData, setAddFormData] = useState({
     productName: "",
     productCode: "",
     desciption: "",
-    price: "",
     priceRrp: "",
     imageUrl:""
   });
@@ -47,14 +47,12 @@ const Testing = ({ placeholder, data }) => {
     productName: "",
     productCode: "",
     desciption: "",
-    price: "",
     priceRrp: "",
     imageUrl:"",
    
   });
   
   const changeType  = newdata => {
-    newdata.price = parseInt(newdata.price)
     newdata.priceRrp = parseInt(newdata.priceRrp)
    return newdata
   }
@@ -82,7 +80,7 @@ const Testing = ({ placeholder, data }) => {
     .then(res=>{   
       getData();
       alert('Add successfully')
-      setaddClick(false)
+      setaddClick(null)
     })
     .catch(error=>{
       alert('Add unsuccessfully')
@@ -98,7 +96,6 @@ const Testing = ({ placeholder, data }) => {
       productName: product.productName,
       productCode: product.productCode,
       desciption: product.desciption,
-      price: product.price,
       priceRrp: product.priceRrp,
       imageUrl : product.imageUrl,};
     setEditFormData(formValues);
@@ -114,6 +111,7 @@ const Testing = ({ placeholder, data }) => {
   };
   const uploadFile=()=>{
   document.getElementById('selectFile').click()
+  
 }
   const handleSaveClick =(newData)=>{
     const dataUpdate = [...prodList];
@@ -121,7 +119,6 @@ const Testing = ({ placeholder, data }) => {
     dataUpdate[index].productName= newData.productName;
     dataUpdate[index].productCode= newData.productCode;
     dataUpdate[index].desciption= newData.desciption;
-    dataUpdate[index].price= newData.price;
     dataUpdate[index].priceRrp= newData.priceRrp;
     dataUpdate[index].imageUrl=newData.imageUrl
     axios.put('http://47.74.86.28:5030/api/Product/ProductUpdate',changeType(dataUpdate[index]))
@@ -132,6 +129,13 @@ const Testing = ({ placeholder, data }) => {
     .catch((error)=>{
         alert('Unsuccessfully');
     })
+    setEditContactId(null) 
+  }
+  const handleSaveClicktemp =(newData)=>{
+    const dataUpdate = [...prodList];
+    const index = prodList.findIndex((product) => product.productId === editContactId)
+    dataUpdate[index].imageUrl=newData.imageUrl
+    setProdList([...dataUpdate]);  
     setEditContactId(null) 
   }
   
@@ -149,23 +153,65 @@ const Testing = ({ placeholder, data }) => {
       alert('Delete Unsuccessfully')
     })
   };
-
-  const [addClick, setaddClick] = useState(null);
   const handleAdd=()=>{
-    setaddClick(true)
+    setaddClick(true) 
   }
   const handleCancel=()=>{
-    setaddClick(false)
+    setaddClick(null)
   }
-  const [Upload,setUpload] = useState()
+  const [UploadOrNot,setUploadOrNot] = useState(null)
 
   const onFileChange =(e)=>{
     e.preventDefault();
     setUpload(e.target.files[0])
-    alert("add successful")
+    setFile(URL.createObjectURL(e.target.files[0]))
+    setUploadOrNot(true)
   }
-  const onFileUpload = (e)=>{
+  const onFileCancel=(e)=>{
+    e.preventDefault();
+    setUpload()
+    setFile()
+    setUploadOrNot(null)
+  }
+  const sortProductName =(e)=>{
+    e.preventDefault()
+    setCurrentPage(1)
+    setIsPriceSorted(null)
+    const nameAscending = [...prodList].sort((a, b) => a.productName > b.productName ? 1:-1);
+    const nameDescending = [...prodList].sort((a, b) => a.productName > b.productName ? -1:1);
+    switch(isNameSorted){
+      case true:
+        setIsNameSorted(false)
+        return setFilteredData(nameDescending)
+      case false:
+        setIsNameSorted(true)
+        return setFilteredData(nameAscending)
+      default: 
+        setIsNameSorted(true)
+        return setFilteredData(nameAscending)
+    }
+  }
+  const sortProductPrice =(e)=>{
+    e.preventDefault()
+    setCurrentPage(1)
+    setIsNameSorted(null)
+    const numAscending = [...prodList].sort((a, b) => a.priceRrp - b.priceRrp);
+    const numDescending = [...prodList].sort((a, b) => b.priceRrp - a.priceRrp);
+    switch(isPriceSorted){
+      case true:
+        setIsPriceSorted(false)
+        return setFilteredData(numDescending)
+      case false:
+        setIsPriceSorted(true)
+        return setFilteredData(numAscending)
+      default: 
+        setIsPriceSorted(true)
+        return setFilteredData(numAscending)
+    }
+  }
+  const onFileSubmit = (e)=>{
     e.preventDefault(); 
+    console.log("error")
     let formdata = new FormData();
     formdata.append("imageFile", Upload)
       axios.post("http://47.74.86.28:5030/api/Common/UploadImage",formdata)
@@ -207,7 +253,6 @@ const Testing = ({ placeholder, data }) => {
       const desc = prodList.filter(prodList=>prodList.desciption.includes(searchWord))
       const final = name.concat(desc.filter((item)=>name.indexOf(item)<0))
       setFilteredData(final)
-   
   };
   
   return (
@@ -227,34 +272,56 @@ const Testing = ({ placeholder, data }) => {
               value={wordEntered}
               onChange={handleFilter}/>     
           </div>
-          <div  className=""><button  className="btn" onClick={handleAdd}><i className="bi bi-plus-square"></i></button>
+          <div><button  className="btn" ><i  onClick={handleAdd}className="bi bi-plus-square"></i></button>
              </div>
         </div>
     </div>       
       <form >
         <table >
           <thead  >           
-              {editContactId === null   ? (
+              {/* {(editContactId === null && addClick ===null)   ? ( */}
+                {(editContactId === null) ? 
+                  // {(addClick === null ||editContactId === null) ? 
+                (
                 <tr>
                 <th className="action">Actions</th>
                 <th className="image">Image</th>
-                <th className="name">ProductName</th>
+                <th className="name" onClick={sortProductName}>ProductName 
+                  { (isNameSorted === true || isNameSorted=== null) ?
+                    <i className="bi bi-arrow-up-short" style={{color:"white"}}></i>
+                    :
+                    <i className="bi bi-arrow-down-short" style={{color:"white"}}></i>
+                  }
+                </th>
                 <th className="code">ProductCode</th>
                 <th className="desciption">Description</th>
-                <th className="price">Price</th>
-                <th className="rrp">PriceRrp</th>
-                <th className="up">Uploadphoto</th>        
+                <th className="rrp" onClick={sortProductPrice}>PriceRrp
+                  { (isPriceSorted === true || isPriceSorted=== null) ?
+                    <i className="bi bi-arrow-up-short" style={{color:"white"}}></i>
+                    :
+                    <i className="bi bi-arrow-down-short"style={{color:"white"}}></i>
+                  }
+                </th>
+                {(editContactId === null && addClick !==true)? 
+                (<></>)
+                :
+                ( <th className="up">Uploadphoto</th> )
+                }        
               </tr>
-              ):(
+              ):
+              (
                 <tr>
                 <th className="action">Actions</th>
                 <th className="image">Image</th>
                 <th className="name">ProductName</th>
                 <th className="code">ProductCode</th>
                 <th className="desciption">Description</th>
-                <th className="price">Price</th>
                 <th className="rrp">PriceRrp</th>
-                <th className="up">Uploadphoto</th>     
+                {remove ===true ?
+                (<></>)
+                :
+                (<th className="up">Uploadphoto</th>)
+                }          
                 </tr>
               )}        
           </thead>
@@ -267,26 +334,28 @@ const Testing = ({ placeholder, data }) => {
                 <EditableRow 
                   editFormData={editFormData}
                   product={product}
+                  prodList={prodList}
                   handleEditFormChange={handleEditFormChange}
                   handleSaveClick={handleSaveClick}
                   handleCancelClick={handleCancelClick}
                   handleDeleteClick={handleDeleteClick}
                   remove ={remove}
                   onFileChange={onFileChange}
-                  onFileUpload={onFileUpload}
+                  onFileSubmit={onFileSubmit}
                   uploadFile={uploadFile}
                   Upload={Upload}
+                  file={file}
+                  UploadOrNot={UploadOrNot}
+                  onFileCancel={onFileCancel}
                 />
               ):( 
                 <ReadOnlyRow  
                     product={product}
                     handleEditClick={handleEditClick}
                     handleDeleteClick={handleDeleteClick}
-                    handleAdd={addClick}
                     handleDeleteEdit={handleDeleteEdit}
-                    wannadelete={wannadelete}
                     onFileChange={onFileChange}
-                    onFileUpload={onFileUpload}        
+                    onFileSubmit={onFileSubmit}        
                   />
               )}   
           </Fragment> ))}
@@ -297,11 +366,18 @@ const Testing = ({ placeholder, data }) => {
                 pageSize={pageSize}
                 currentPage={currentPage}
                 onPageChange={handlePageChange}
-                handleAdd={addClick}
+                handleAdd={handleAdd}
+                addClick={addClick}
                 addFormData ={addFormData}
                 handleAddFormSubmit={handleAddFormSubmit}
                 handleCancel={handleCancel}
                 handleAddFormChange={handleAddFormChange}
+                uploadFile={uploadFile}
+                onFileChange={onFileChange}
+                file={file}
+                onFileCancel={onFileCancel}
+                onFileSubmit={onFileSubmit}
+                UploadOrNot={UploadOrNot}
                 />  
           </tfoot>
         </table> 
