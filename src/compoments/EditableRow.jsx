@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import './Homepage.css';
  
 const EditableRow = ({
@@ -7,24 +7,19 @@ const EditableRow = ({
   handleEditFormChange,
   handleSaveClick,
   handleCancelClick,
-  handleEditFormSubmit,
   handleDeleteClick,
   remove,
   onFileSubmit,
-  prodList,
   onFileChange,
-  Upload,
   UploadOrNot,
   uploadFile,
   onFileCancel,
   file
-}) => {
-  const[cancelUpload,setcancelUpload]= useState(null)
-  
+}) => {  
   return (
     <React.Fragment>
-      {remove === true ? (
-      <tr>
+      {remove === true ? 
+      (<tr>
       <td className="button">
         <button className='btn' type="button" onClick={()=>handleDeleteClick(product)}><i className="bi bi-check-lg"></i></button>
         <button className='btn' type="button" onClick={handleCancelClick}>
@@ -36,7 +31,7 @@ const EditableRow = ({
       :
       (<td ><div style={{width:'70px',height:'70px'}}></div></td>
       )}
-      <td className='note' colSpan={6}><h5>Are you sure you want to delete this row? </h5></td>
+      <td className='note' colSpan={5}><h5>Are you sure you want to delete this row? </h5></td>
     </tr>
     ) : 
     (<tr > 
@@ -53,7 +48,7 @@ const EditableRow = ({
       )
       :
       (<td >
-        <img style={{width:'70px',height:'70px'}}  src={product.imageUrl } alt=''/>
+        <img style={{width:'70px',height:'70px'}}  src={product.imageUrl} alt=''/>
       </td>
       )
       }
@@ -85,12 +80,12 @@ const EditableRow = ({
         ></input>
       </td>
       <td className='rrp'>
-      <input
-         type="number"
-          required="required"
-          name="priceRrp"
-          value={editFormData.priceRrp||""}
-          onChange={handleEditFormChange}
+        <input
+          type="number"
+            required="required"
+            name="priceRrp"
+            value={editFormData.priceRrp||""}
+            onChange={handleEditFormChange}
         ></input>
       </td>
       <td>

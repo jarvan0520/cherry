@@ -20,6 +20,7 @@
     }
 #select:hover{
     cursor: pointer;    
+  
 }
 .name:hover > i {
     color: rgba(0, 0, 0, 0.54) !important;
@@ -81,6 +82,7 @@ tr,td,th {
     padding: 8px;
     text-align: center;
     border-bottom: 1px solid #ddd  !important;
+    
     }
 
 .btn{
@@ -98,4 +100,21 @@ input{
     height: 60px;
     width: 60px;
     }
+#pagebutton{
+    border:none;
+    color:black;
+    background-color:white;
+    /* cursor: pointer; */
+}
+#pagebutton:hover{
+    background-color:rgba(0, 0, 0, 0.08);
+}
+#pagespan{
+  
+    padding-right: 12px;
+    font-size:20px
+}
+.note{
+    border-bottom: 0px !important;
 
+}

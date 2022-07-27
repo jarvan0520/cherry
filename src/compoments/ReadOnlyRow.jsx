@@ -1,4 +1,3 @@
-
 import React  from "react";
 import './Homepage.css';
 
@@ -7,11 +6,13 @@ const ReadOnlyRow = (
     handleEditClick, 
     handleDeleteEdit,
     remove,
-  
+    editContactId,
+    addClick
   }) => { 
   return (
     <React.Fragment>
-       {remove === true ?(
+       {(addClick !== true &&(editContactId === null||remove === true))?
+       (
         <tr >
           <td className="button">
             <button className="btn"
@@ -32,15 +33,17 @@ const ReadOnlyRow = (
           <td>{product.desciption}</td>
           <td>{product.priceRrp}</td>
         </tr>
-      ):(
-      <tr >
+      )
+      :
+      (<tr style={{backgroundColor:"rgba(245,0,87,0.08)",opacity:"0.2"}}>
         <td className="button">
-          <button className="btn"
+          <button disabled className="btn"
             type="button"
+            
             onClick={(event) => handleEditClick(event, product)}>
             <i className="bi bi-pencil-fill"></i>
           </button>
-          <button className="btn" type="button" 
+          <button disabled className="btn" type="button" 
           onClick={(event) => handleDeleteEdit(event, product)}>  
           <i className="bi bi-trash"></i>
           </button>
@@ -52,6 +55,7 @@ const ReadOnlyRow = (
         <td>{product.productCode||""}</td>
         <td>{product.desciption||""}</td>
         <td>{product.priceRrp||""}</td>
+        <td></td>
       </tr>
       )}
     </React.Fragment>

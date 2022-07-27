@@ -131,14 +131,6 @@ const Testing = ({ placeholder, data }) => {
     })
     setEditContactId(null) 
   }
-  const handleSaveClicktemp =(newData)=>{
-    const dataUpdate = [...prodList];
-    const index = prodList.findIndex((product) => product.productId === editContactId)
-    dataUpdate[index].imageUrl=newData.imageUrl
-    setProdList([...dataUpdate]);  
-    setEditContactId(null) 
-  }
-  
   const handleDeleteClick = (oldData) => {
     const dataDelete = [prodList];
     const index = prodList.findIndex((prodList)=>prodList.productId===oldData.productId);
@@ -170,7 +162,7 @@ const Testing = ({ placeholder, data }) => {
   const onFileCancel=(e)=>{
     e.preventDefault();
     setUpload()
-    setFile()
+    setFile(null)
     setUploadOrNot(null)
   }
   const sortProductName =(e)=>{
@@ -211,12 +203,13 @@ const Testing = ({ placeholder, data }) => {
   }
   const onFileSubmit = (e)=>{
     e.preventDefault(); 
-    console.log("error")
     let formdata = new FormData();
     formdata.append("imageFile", Upload)
       axios.post("http://47.74.86.28:5030/api/Common/UploadImage",formdata)
         .then (res=>{
           setUpload(formdata); 
+          setFile()
+          setUploadOrNot(null)
           editFormData.imageUrl = res.data
           handleSaveClick(editFormData)
         })
@@ -247,7 +240,8 @@ const Testing = ({ placeholder, data }) => {
     const searchWord = event.target.value ;
     if (searchWord === "") {
       setFilteredData(prodList)}
-      setWordEntered(searchWord);   
+      setWordEntered(searchWord);
+      console.log(wordEntered)   
       setCurrentPage(1)
       const name = prodList.filter(prodList=>prodList.productName.toLowerCase().includes(searchWord))
       const desc = prodList.filter(prodList=>prodList.desciption.includes(searchWord))
@@ -279,9 +273,7 @@ const Testing = ({ placeholder, data }) => {
       <form >
         <table >
           <thead  >           
-              {/* {(editContactId === null && addClick ===null)   ? ( */}
                 {(editContactId === null) ? 
-                  // {(addClick === null ||editContactId === null) ? 
                 (
                 <tr>
                 <th className="action">Actions</th>
@@ -355,7 +347,9 @@ const Testing = ({ placeholder, data }) => {
                     handleDeleteClick={handleDeleteClick}
                     handleDeleteEdit={handleDeleteEdit}
                     onFileChange={onFileChange}
-                    onFileSubmit={onFileSubmit}        
+                    onFileSubmit={onFileSubmit}  
+                    editContactId={editContactId}    
+                    addClick={addClick}
                   />
               )}   
           </Fragment> ))}
