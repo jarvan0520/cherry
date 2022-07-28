@@ -6,34 +6,28 @@ import Login from './compoments/Login';
 import Home from './compoments/Home'
 import Register from './compoments/Register';
 import Logout from './compoments/Logout';
-import {useState,useEffect} from 'react'
+import {useEffect} from 'react'
 import Order from './compoments/Order';
 import Testing from './compoments/Testing';
 import './compoments/Homepage.css'
 export function App() {
-   const [auth, setauth] = useState(false);
-   const logincheck = () => setauth(true);
-   const ls = localStorage.getItem("token")
-    const ss = sessionStorage.getItem("token")
-
+   const ls = localStorage.getItem("jarvanCherryToken")
+   const ss = sessionStorage.getItem("jarvanCherryToken")
     useEffect (() => {
-    const ls = localStorage.getItem("token")
-    const ss = sessionStorage.getItem("token")
     const logintime = localStorage.getItem("logintime")
     if(ls){
-      var nowtime = (new Date()).getTime();
-      var dif = nowtime - logintime
-      var difdays=Math.floor(dif/(24*3600*1000))      
-      if(difdays<=7){
-        ls && JSON.stringify(ls) ? setauth(true) : setauth(false);             
+      let nowtime = (new Date()).getTime();
+      let dif = nowtime - logintime
+      let difdays=Math.floor(dif/(24*3600*1000))      
+      if(difdays>7){
+        localStorage.removeItem("jarvanCherryToken")
+        localStorage.removeItem("logintime")
+        localStorage.removeItem("username")
+        localStorage.removeItem("rememberMe")
       } 
     }
-    if(ss){
-      ss && JSON.stringify(ss) ? setauth(true) : setauth(false);
-    }
-  },[])
+  },[ls])
   return (
-    
     <div>
       <nav className ="navbar navbar-expand-lg navbar-light bg-light">              
           <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -76,47 +70,44 @@ export function App() {
       <Router >   
         <Routes> 
           <Route path = "*" element={<Home/>} />
-          { auth && (
+          { (ls||ss) && (
             <Route 
             path = "/product" 
             element={<Product/>}
             />
           )} 
-          { auth && (
+          { (ls||ss) && (
             <Route 
             path = "/testing" 
             element={<Testing/>}
             />
           )} 
-          { auth && (
+          { (ls||ss) && (
             <Route 
             path = "/order" 
             element={<Order/>}
             />
           )} 
-           { auth && (
+           { (ls||ss) && (
             <Route 
             path = "/logout" 
             element={<Logout/>}
             />
           )}
-           { !auth && (
+           { !(ls||ss) && (
             <Route 
             path = "/register" 
             element={<Register/>} 
             /> 
           )}
-           { !auth && (
-             <Route path = "/login" element={<Login authenticate={logincheck}/>}/>  
+           { !(ls||ss) && (
+             <Route path = "/login" element={<Login/>}/>  
           )} 
-        
         </Routes>
       </Router>
     </div>
-    
   );
 }
-
 export default App;
    
 

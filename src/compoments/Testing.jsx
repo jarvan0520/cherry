@@ -144,6 +144,7 @@ const Testing = ({ placeholder, data }) => {
     .catch(error=>{
       alert('Delete Unsuccessfully')
     })
+    setEditContactId(null) 
   };
   const handleAdd=()=>{
     setaddClick(true) 
@@ -241,7 +242,7 @@ const Testing = ({ placeholder, data }) => {
     if (searchWord === "") {
       setFilteredData(prodList)}
       setWordEntered(searchWord);
-      console.log(wordEntered)   
+      // console.log(wordEntered)   
       setCurrentPage(1)
       const name = prodList.filter(prodList=>prodList.productName.toLowerCase().includes(searchWord))
       const desc = prodList.filter(prodList=>prodList.desciption.includes(searchWord))

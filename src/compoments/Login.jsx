@@ -4,7 +4,7 @@ import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
 import IconButton from "@material-ui/core/IconButton";
 import { useNavigate } from 'react-router-dom'
- function Login({authenticate}) {
+ function Login() {
   const navigate = useNavigate()
   const [state, setState] = useState({
     username: "",
@@ -32,23 +32,22 @@ import { useNavigate } from 'react-router-dom'
       .then(response => {     
         const token = JSON.stringify(response.data.data.token);
           if(rememberMe){          
-            localStorage.setItem('username', username ? username : "");
-            localStorage.setItem('token', token);
+            localStorage.setItem('jarvanCherryUsername', username ? username : "");
+            localStorage.setItem('jarvanCherryToken', token);
             var logintime = (new Date()).getTime();
             localStorage.setItem('logintime', logintime);
-            console.log(localStorage.token)
-            authenticate()
-            navigate("/testing")  
+            navigate("/testing") 
+            window.location.reload() 
           }
           else {
-            sessionStorage.setItem('username', username ? username : "");
-            sessionStorage.setItem('token', token);
-            authenticate()
+            sessionStorage.setItem('jarvanCherryToken', token);
             navigate("/testing")
+            window.location.reload() 
           }
       })
       .catch((error) => {
         alert('Login Unsuccessfully');
+        console.log(error)
         return error;
       })
   }; 

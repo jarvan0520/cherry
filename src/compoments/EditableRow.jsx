@@ -95,7 +95,7 @@ const EditableRow = ({
           <i  id="select"className="bi bi-upload" style={{backgroundColor:"white",fontSize:"20px"}} onClick={uploadFile}></i>
         ):
         (<div>
-          <button onClick={onFileSubmit} style={{background: "#016ABC",color: "#fff",border: "1px solid #eee",borderRadius: "20px",boxShadow: "none",textAlign:"center"}} >Submit</button> 
+          <button onClick={onFileSubmit} style={{background: "#016ABC",color: "#fff",border: "1px solid #eee",borderRadius: "20px",boxShadow: "none",textAlign:"center"}} >Save Img</button> 
           <button onClick={onFileCancel} style={{background: "#016ABC",color: "#fff",border: "1px solid #eee",borderRadius: "20px",boxShadow: "none",textAlign:"center"}}>Cancel</button>
         </div>)
         }
