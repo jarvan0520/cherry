@@ -3,10 +3,10 @@ import ReadOnlyRow from "./ReadOnlyRow";
 import EditableRow from "./EditableRow";
 import Pagination from './Pagination';
 import axios  from "axios";
-import './Homepage.css';
+import '../Homepage.css';
 import _ from "lodash";
 
-const Testing = ({ placeholder, data }) => {
+const Testing = () => {
   const pageSize = 5;
   const [currentPage, setCurrentPage] = useState(1);
   const [prodList, setProdList] = useState([])
@@ -25,16 +25,18 @@ const Testing = ({ placeholder, data }) => {
   }
   const [isPriceSorted,setIsPriceSorted]=useState(null)
   const [isNameSorted,setIsNameSorted]=useState(null)
- 
-  const [wordEntered, setWordEntered] = useState("");
-  const handlePageChange = (page) => {
-    setCurrentPage(page);
-  };
-  const  [Upload,setUpload] = useState()
-  const [file, setFile] = useState();
   const [editContactId, setEditContactId] = useState(null);
   const [remove , setremove] = useState(null)
   const [addClick, setaddClick] = useState(null);
+  const [UploadOrNot,setUploadOrNot] = useState(null)
+  const [wordEntered, setWordEntered] = useState("")
+  const [Upload,setUpload] = useState()
+  const [file, setFile] = useState();
+  
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
+
   const [addFormData, setAddFormData] = useState({
     productName: "",
     productCode: "",
@@ -131,6 +133,7 @@ const Testing = ({ placeholder, data }) => {
     })
     setEditContactId(null) 
   }
+
   const handleDeleteClick = (oldData) => {
     const dataDelete = [prodList];
     const index = prodList.findIndex((prodList)=>prodList.productId===oldData.productId);
@@ -152,7 +155,7 @@ const Testing = ({ placeholder, data }) => {
   const handleCancel=()=>{
     setaddClick(null)
   }
-  const [UploadOrNot,setUploadOrNot] = useState(null)
+  
 
   const onFileChange =(e)=>{
     e.preventDefault();
@@ -215,7 +218,6 @@ const Testing = ({ placeholder, data }) => {
           handleSaveClick(editFormData)
         })
         .catch((error)=>{
-            console.log(error)
             alert('Unsuccessfully');
         })
         setEditContactId(null) 
@@ -242,7 +244,6 @@ const Testing = ({ placeholder, data }) => {
     if (searchWord === "") {
       setFilteredData(prodList)}
       setWordEntered(searchWord);
-      // console.log(wordEntered)   
       setCurrentPage(1)
       const name = prodList.filter(prodList=>prodList.productName.toLowerCase().includes(searchWord))
       const desc = prodList.filter(prodList=>prodList.desciption.includes(searchWord))
@@ -255,7 +256,7 @@ const Testing = ({ placeholder, data }) => {
        <div className='searchbar'>
         <div> <h6 style={{fontweight :'500' , fontSize: '20px',
         fontfamily: '"Roboto", "Helvetica", "Arial", sans-serif',lineheight: '24px',
-        letterspacing:'0.15px',margin:'20px 20px',}}>Editable Preview</h6>
+        letterspacing:'0.15px',margin:'20px 20px',}}>Product Management</h6>
         </div>
         <div style={{flex:'1 1 10%'}}></div>
         <div className="searchInputs">
@@ -319,8 +320,7 @@ const Testing = ({ placeholder, data }) => {
               )}        
           </thead>
           <tbody>
-            {handleOriginData(filteredData).map((product) =>(
-              
+            {handleOriginData(filteredData).map((product) =>(            
             <Fragment key={product.productId}>            
               {editContactId === product.productId ? 
               ( 

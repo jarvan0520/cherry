@@ -55,7 +55,6 @@ const Editable=()=> {
     }
     const [isPriceSorted,setIsPriceSorted]=useState(null)
     const [isNameSorted,setIsNameSorted]=useState(null)
-    const [wordEntered, setWordEntered] = useState("");
     const handlePageChange = (page) => {
       setCurrentPage(page);
     };
@@ -100,49 +99,21 @@ const Editable=()=> {
           return setFilteredData(numAscending)
       }
     }
-    const handleOriginData =(filteredData)=>{
-      
+    const handleOriginData =(filteredData)=>{     
       if(filteredData.length === 0 && prodList2 === null ){
         return paginate(prodList, currentPage, pageSize)
       }
       if(filteredData.length === 0 && prodList2 !== null){
         return paginate(prodList.concat(prodList2), currentPage, pageSize)
       }
-      if(filteredData.length !== 0 && prodList2 === null){
-        
+      if(filteredData.length !== 0 && prodList2 === null){    
         return paginate(filteredData, currentPage, pageSize)
-      }
-     
+      }   
       if(filteredData.length !== 0 && prodList2 !== null){
         const combineTwo = filteredData.concat(prodList2)
         return paginate(combineTwo, currentPage, pageSize)
       } 
-      
-      
     }
-    const handleFilter = (event) => {
-      const searchWord = event.target.value ;
-      if (searchWord ==="")
-      {setFilteredData(prodList)}
-      if(prodList2 !== null){
-        setWordEntered(searchWord); 
-        setCurrentPage(1)
-        const combine = prodList.concat(prodList2)
-        const name = combine.filter(combine=>combine.productName.toLowerCase().includes(searchWord))
-        const desc = combine.filter(combine=>combine.desciption.toString().includes(searchWord))
-        const final = name.concat(desc.filter((item)=>name.indexOf(item)<0))
-        console.log(final)
-        setFilteredData(final)
-      }
-      setWordEntered(searchWord); 
-      setCurrentPage(1)
-      const name = prodList.filter(prodList=>prodList.productName.toLowerCase().includes(searchWord))
-      
-      const desc = prodList.filter(prodList=>prodList.desciption.toString().includes(searchWord))
-      const final = name.concat(desc.filter((item)=>name.indexOf(item)<0))
-      console.log(final)
-      setFilteredData(final)
-    };
     const handleDataLength =(data)=>{
       if(data.length === 0 ){
         return prodList
@@ -151,13 +122,8 @@ const Editable=()=> {
         return data
       }
     }
-
     const pageCount = handleDataLength(prodList2? prodList.concat(prodList2): filteredData).length / pageSize;
-
     if (Math.ceil(pageCount) === 1) return null;
-    
-    
-
     return (  
         <>
     <div className="app-container">
@@ -167,28 +133,20 @@ const Editable=()=> {
           fontfamily: '"Roboto", "Helvetica", "Arial", sans-serif',lineheight: '24px',
           letterspacing:'0.15px',margin:'20px 20px',}}>Product Order
      </h6>
-     <div>
-        <input
-          type="file" className="form" 
-          style={{right:'0px' ,positions:'absolute'}}
-          onChange={(e) => {const file = e.target.files[0];readExcel(file);}}/>
-        <button onClick={downloadExcel}> export</button> 
+     <div className="row">
+       <div className="col-8">
+          <input
+            type="file" className="form-control" 
+            style={{right:'0px' ,positions:'absolute'}}
+            onChange={(e) => {const file = e.target.files[0];readExcel(file);}}
+          />
+       </div>
+        <div className="col-1">
+          <button className="btn btn-secondary" onClick={downloadExcel}> Export</button>
+        </div> 
       </div>
      </div>
      <div style={{flex:'1 1 10%'}}></div>
-     <div className="searchInputs">
-       <div className="searchPart">
-         <span className="iconn">
-            <i  className="bi bi-search" style={{height:'20px',width:'20px',float:"left"}}></i>
-          </span>
-         <input className="input"
-           type="text"
-           placeholder='Search'
-           value={wordEntered}
-           onChange={handleFilter}
-           />     
-       </div>
-     </div>
       </div>       
         <form >
           <table >

@@ -36,12 +36,12 @@ import { useNavigate } from 'react-router-dom'
             localStorage.setItem('jarvanCherryToken', token);
             var logintime = (new Date()).getTime();
             localStorage.setItem('logintime', logintime);
-            navigate("/testing") 
+            navigate("/product") 
             window.location.reload() 
           }
           else {
             sessionStorage.setItem('jarvanCherryToken', token);
-            navigate("/testing")
+            navigate("/product")
             window.location.reload() 
           }
       })
@@ -84,10 +84,6 @@ import { useNavigate } from 'react-router-dom'
                       </div>
                   </div>
                   <button className="btn btn-outline-light btn-lg px-5" type="submit" onClick={handleLogin}>Login</button>
-                </div>
-                <div>
-                  <p className="mb-0">Don't have an account? <a href="/register" className="text-white-50 fw-bold">Sign Up</a></p>
-                  <p className="mb-0">Home Page <a href="/" className="text-white-50 fw-bold">Here</a></p>
                 </div>
               </div>
             </div>

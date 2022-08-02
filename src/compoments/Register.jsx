@@ -60,7 +60,6 @@ function Register(){
                       </div>
                       <label className="form-label" htmlFor="typePasswordX">Password</label>
                       </div>
-                      <p className="small mb-5 pb-lg-2"><a className="text-white-50" href="#!">Forgot password?</a></p>
                       <button className="btn btn-outline-light btn-lg px-5" type="submit" onClick={handleRegister}>Register</button>
                     </div>
                   </div>

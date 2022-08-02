@@ -104,7 +104,6 @@ input{
     border:none;
     color:black;
     background-color:white;
-    /* cursor: pointer; */
 }
 #pagebutton:hover{
     background-color:rgba(0, 0, 0, 0.08);
