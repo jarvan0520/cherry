@@ -40,7 +40,7 @@ export function App() {
               <span className="navbar-toggler-icon"></span>
           </button>
           <div className="collapse navbar-collapse" id="navbarNav">
-              <ul className="navbar-nav">
+              <ul className="navbar-nav" style={{paddingleft:"20px"}}>
                   <li className="nav-item active">
                   <a className="nav-link" href="/">HOME </a>
                   </li>

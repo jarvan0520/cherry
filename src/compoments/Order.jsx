@@ -9,6 +9,7 @@ const Editable=()=> {
     const [prodList, setProdList] = useState([]);
     const [prodList2, setProdList2] = useState(null);  
     const [currentPage, setCurrentPage] = useState(1);  
+
     useEffect(() => {
       getData();
     }, [])
@@ -32,7 +33,6 @@ const Editable=()=> {
           const ws = wb.Sheets[wsname];
           const data = XLSX.utils.sheet_to_json(ws);
           resolve(data);
-          alert('successfully')
         };
         fileReader.onerror = (error) => {
           reject(error);
@@ -42,6 +42,7 @@ const Editable=()=> {
         setProdList2(d);
       });
     }; 
+
     const downloadExcel=()=>{
       const newData=prodList.map(row=>{
         delete row.tableData
@@ -131,7 +132,7 @@ const Editable=()=> {
      <div> 
       <h6 style={{fontweight :'500' , fontSize: '20px',
           fontfamily: '"Roboto", "Helvetica", "Arial", sans-serif',lineheight: '24px',
-          letterspacing:'0.15px',margin:'20px 20px',}}>Product Order
+          letterspacing:'0.15px',margin:'20px 10px',}}>Product Order
      </h6>
      <div className="row">
        <div className="col-8">
@@ -141,6 +142,17 @@ const Editable=()=> {
             onChange={(e) => {const file = e.target.files[0];readExcel(file);}}
           />
        </div>
+
+
+
+
+
+
+
+
+
+
+
         <div className="col-1">
           <button className="btn btn-secondary" onClick={downloadExcel}> Export</button>
         </div> 

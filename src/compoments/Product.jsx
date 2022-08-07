@@ -4,7 +4,9 @@ import EditableRow from "./EditableRow";
 import Pagination from './Pagination';
 import '../Homepage.css';
 import _ from "lodash";
-import service from '../service'
+import {apiGet,apiAdd,apiDelete,apiUpdate,apiUploadImg} from '../service'
+import {intercept} from '../intercept'
+
 
 const Product = () => {
   const pageSize = 5;
@@ -20,12 +22,11 @@ const Product = () => {
   const [wordEntered, setWordEntered] = useState("")
   const [Upload,setUpload] = useState()
   const [file, setFile] = useState();
-  
   useEffect(() => {
     getData();
   }, [])
   const getData =()=>{
-    service.apiGet()
+    apiGet()
       .then(res => {
           setProdList(res.data.data)
       })
@@ -86,8 +87,9 @@ const Product = () => {
   };
 
   const handleAddFormSubmit = (data) => {
-    service.apiAdd(changeType(data))        
-    .then(res=>{   
+    apiAdd(changeType(data))        
+    .then(res=>{
+      intercept()   
       getData();
       alert('Add successfully')
       clearAddData()
@@ -132,8 +134,9 @@ const Product = () => {
     dataUpdate[index].desciption= newData.desciption;
     dataUpdate[index].priceRrp= newData.priceRrp;
     dataUpdate[index].imageUrl=newData.imageUrl
-    service.apiUpdate(changeType(dataUpdate[index]))
+    apiUpdate(changeType(dataUpdate[index]))
     .then (response=>{
+        intercept()
         setProdList([...dataUpdate]);  
         alert('Update successfully');   
     })
@@ -148,8 +151,9 @@ const Product = () => {
     const index = prodList.findIndex((prodList)=>prodList.productId===oldData.productId);
     dataDelete.splice(index, 1);
     const filteredData = prodList.filter( (e) => e.productId !== oldData.productId);
-    service.apiDelete(oldData.productId)
-    .then(res=>{  
+    apiDelete(oldData.productId)
+    .then(res=>{ 
+      intercept() 
       setProdList([...filteredData])
       alert('Delete successfully')
       
@@ -219,7 +223,7 @@ const Product = () => {
     e.preventDefault(); 
     let formdata = new FormData();
     formdata.append("imageFile", Upload)
-      service.apiUploadImg(formdata)
+      apiUploadImg(formdata)
         .then (res=>{
           setUpload(formdata); 
           setFile()
@@ -264,9 +268,9 @@ const Product = () => {
   return (
     <div className="app-container">
        <div className='searchbar'>
-        <div> <h6 style={{fontweight :'500' , fontSize: '20px',
+        <div > <h6 style={{fontweight :'500' , fontSize: '20px',
         fontfamily: '"Roboto", "Helvetica", "Arial", sans-serif',lineheight: '24px',
-        letterspacing:'0.15px',margin:'20px 20px',}}>Product Management</h6>
+        letterspacing:'0.15px',margin:'20px 10px',}}>Product Management</h6>
         </div>
         <div style={{flex:'1 1 10%'}}></div>
         <div className="searchInputs">

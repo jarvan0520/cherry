@@ -2,7 +2,7 @@ import React,{useState} from 'react';
 import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
 import IconButton from "@material-ui/core/IconButton";
-import service from '../service';
+import {apiRegister} from '../service';
 function Register(){
     const [state,setState] = useState({
         username:"",
@@ -16,7 +16,7 @@ function Register(){
           })
       }
     const handleRegister =()=> {
-        service.apiRegister(state)
+        apiRegister(state)
         .then (response=>{
             alert('Register successfully');
             return response

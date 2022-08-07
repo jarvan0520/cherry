@@ -35,7 +35,7 @@ const Pagination = ({ items,
                 className='btn'
                 type="button"
                >
-                <i className="bi bi-check-lg"></i>
+                <i className="bi bi-check-lg" style={{opacity:"0.3"}}></i>
                 </button>
               )}
               

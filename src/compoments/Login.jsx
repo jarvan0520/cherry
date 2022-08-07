@@ -2,7 +2,7 @@ import React, { useState  } from 'react';
 import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
 import IconButton from "@material-ui/core/IconButton";
-import service from '../service'
+import {apiLogin} from '../service'
 import { useNavigate } from 'react-router-dom'
  function Login() {
   const navigate = useNavigate()
@@ -28,8 +28,8 @@ import { useNavigate } from 'react-router-dom'
   }; 
   const {username,rememberMe} = state
   const handleLogin = ()=>  {   
-    service.apiLogin(state)
-      .then(response => {     
+    apiLogin(state)
+      .then(response => {  
         const token = JSON.stringify(response.data.data.token);
           if(rememberMe){          
             localStorage.setItem('jarvanCherryUsername', username ? username : "");

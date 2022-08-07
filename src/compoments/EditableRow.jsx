@@ -40,7 +40,7 @@ const EditableRow = ({
         {editFormData.productName !== product.productName || editFormData.productCode !== product.productCode ||
          editFormData.desciption !== product.desciption || editFormData.priceRrp !== product.priceRrp ?
         (<button className='btn' type="button" onClick={()=>handleSaveClick(editFormData)}><i className="bi bi-check-lg"></i></button>)
-        :(<button disabled  className='btn' type="button"><i className="bi bi-check-lg"></i></button>)}
+        :(<button disabled  className='btn' type="button"><i className="bi bi-check-lg" style={{opacity:"0.3"}}></i></button>)}
         
         
         <button className='btn' type="button" onClick={handleCancelClick}>
