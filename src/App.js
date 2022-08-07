@@ -4,14 +4,21 @@ import { BrowserRouter as Router,Route,Routes} from 'react-router-dom'
 import Login from './compoments/Login';
 import Home from './compoments/Home'
 import Register from './compoments/Register';
-import Logout from './compoments/Logout';
 import {useEffect} from 'react'
 import Order from './compoments/Order';
-import Testing from './compoments/Testing';
+import Product from './compoments/Product';
 import './Homepage.css'
 export function App() {
    const ls = localStorage.getItem("jarvanCherryToken")
    const ss = sessionStorage.getItem("jarvanCherryToken")
+   const logout = () => {
+    localStorage.removeItem("jarvanCherryToken")
+    localStorage.removeItem("logintime")
+    localStorage.removeItem("username")
+    localStorage.removeItem("rememberMe")
+    sessionStorage.removeItem("jarvanCherryToken")
+    sessionStorage.removeItem("username")
+}
     useEffect (() => {
     const logintime = localStorage.getItem("logintime")
     if(ls){
@@ -59,7 +66,7 @@ export function App() {
                   }
                   {(ls||ss)&&
                       <li className="nav-item">
-                      <a className="nav-link " href="/logout">LOGOUT</a>
+                      <a className="nav-link " href="/" onClick={logout}>LOGOUT</a>
                       </li>                
                   } 
               </ul>
@@ -71,7 +78,7 @@ export function App() {
           { (ls||ss) && (
             <Route 
             path = "/product" 
-            element={<Testing/>}
+            element={<Product/>}
             />
           )} 
           { (ls||ss) && (
@@ -80,12 +87,6 @@ export function App() {
             element={<Order/>}
             />
           )} 
-           { (ls||ss) && (
-            <Route 
-            path = "/logout" 
-            element={<Logout/>}
-            />
-          )}
            { !(ls||ss) && (
             <Route 
             path = "/register" 

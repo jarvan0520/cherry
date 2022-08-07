@@ -1,8 +1,8 @@
 import React,{useState} from 'react';
-import axios  from "axios";
 import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
 import IconButton from "@material-ui/core/IconButton";
+import service from '../service';
 function Register(){
     const [state,setState] = useState({
         username:"",
@@ -16,8 +16,7 @@ function Register(){
           })
       }
     const handleRegister =()=> {
-        console.log()
-        axios.post('http://47.74.86.28:5030/api/User/UserRegister',state)
+        service.apiRegister(state)
         .then (response=>{
             alert('Register successfully');
             return response

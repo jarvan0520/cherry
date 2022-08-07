@@ -2,27 +2,15 @@ import React, { useState, Fragment,useEffect} from "react";
 import ReadOnlyRow from "./ReadOnlyRow";
 import EditableRow from "./EditableRow";
 import Pagination from './Pagination';
-import axios  from "axios";
 import '../Homepage.css';
 import _ from "lodash";
+import service from '../service'
 
-const Testing = () => {
+const Product = () => {
   const pageSize = 5;
   const [currentPage, setCurrentPage] = useState(1);
   const [prodList, setProdList] = useState([])
   const [filteredData, setFilteredData] = useState([]);
-  useEffect(() => {
-    getData();
-  }, [])
-  const getData =(newdata)=>{
-    axios.get('http://47.74.86.28:5030/api/Product')
-      .then(res => {
-          setProdList(res.data.data)
-      })
-      .catch(error => {
-          console.log(error);      
-      });
-  }
   const [isPriceSorted,setIsPriceSorted]=useState(null)
   const [isNameSorted,setIsNameSorted]=useState(null)
   const [editContactId, setEditContactId] = useState(null);
@@ -32,6 +20,19 @@ const Testing = () => {
   const [wordEntered, setWordEntered] = useState("")
   const [Upload,setUpload] = useState()
   const [file, setFile] = useState();
+  
+  useEffect(() => {
+    getData();
+  }, [])
+  const getData =()=>{
+    service.apiGet()
+      .then(res => {
+          setProdList(res.data.data)
+      })
+      .catch(error => {
+          console.log(error);      
+      });
+  }
   
   const handlePageChange = (page) => {
     setCurrentPage(page);
@@ -44,6 +45,13 @@ const Testing = () => {
     priceRrp: "",
     imageUrl:""
   });
+  const clearAddData =()=>{
+    addFormData.productName = ""
+    addFormData.productCode = ""
+    addFormData.desciption = ""
+    addFormData.priceRrp = ""
+    addFormData.imageUrl = ""
+  }
 
   const [editFormData, setEditFormData] = useState({
     productName: "",
@@ -77,11 +85,12 @@ const Testing = () => {
     setEditFormData(newFormData);
   };
 
-  const handleAddFormSubmit = (event) => {
-    axios.post('http://47.74.86.28:5030/api/Product/ProductCreate',changeType(addFormData))          
+  const handleAddFormSubmit = (data) => {
+    service.apiAdd(changeType(data))        
     .then(res=>{   
       getData();
       alert('Add successfully')
+      clearAddData()
       setaddClick(null)
     })
     .catch(error=>{
@@ -123,7 +132,7 @@ const Testing = () => {
     dataUpdate[index].desciption= newData.desciption;
     dataUpdate[index].priceRrp= newData.priceRrp;
     dataUpdate[index].imageUrl=newData.imageUrl
-    axios.put('http://47.74.86.28:5030/api/Product/ProductUpdate',changeType(dataUpdate[index]))
+    service.apiUpdate(changeType(dataUpdate[index]))
     .then (response=>{
         setProdList([...dataUpdate]);  
         alert('Update successfully');   
@@ -139,10 +148,11 @@ const Testing = () => {
     const index = prodList.findIndex((prodList)=>prodList.productId===oldData.productId);
     dataDelete.splice(index, 1);
     const filteredData = prodList.filter( (e) => e.productId !== oldData.productId);
-    axios.delete('http://47.74.86.28:5030/api/Product/'+oldData.productId)
+    service.apiDelete(oldData.productId)
     .then(res=>{  
       setProdList([...filteredData])
       alert('Delete successfully')
+      
     })
     .catch(error=>{
       alert('Delete Unsuccessfully')
@@ -209,7 +219,7 @@ const Testing = () => {
     e.preventDefault(); 
     let formdata = new FormData();
     formdata.append("imageFile", Upload)
-      axios.post("http://47.74.86.28:5030/api/Common/UploadImage",formdata)
+      service.apiUploadImg(formdata)
         .then (res=>{
           setUpload(formdata); 
           setFile()
@@ -381,4 +391,4 @@ const Testing = () => {
   );
 };
 
-export default Testing;
+export default Product;

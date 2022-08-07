@@ -1,8 +1,8 @@
 import React, { useState  } from 'react';
-import axios from "axios";
 import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
 import IconButton from "@material-ui/core/IconButton";
+import service from '../service'
 import { useNavigate } from 'react-router-dom'
  function Login() {
   const navigate = useNavigate()
@@ -28,7 +28,7 @@ import { useNavigate } from 'react-router-dom'
   }; 
   const {username,rememberMe} = state
   const handleLogin = ()=>  {   
-    axios.post('http://47.74.86.28:5030/api/User/UserLogin', state) 
+    service.apiLogin(state)
       .then(response => {     
         const token = JSON.stringify(response.data.data.token);
           if(rememberMe){          

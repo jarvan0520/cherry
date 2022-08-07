@@ -23,12 +23,22 @@ const Pagination = ({ items,
         <React.Fragment>
         <tr>
             <td className='button'>
-              <button
+              {addFormData.productCode || addFormData.productName || addFormData.desciption || addFormData.priceRrp ?
+              (<button
                 className='btn'
                 type="button"
                 onClick={()=>handleAddFormSubmit(addFormData)}>
                 <i className="bi bi-check-lg"></i>
               </button>
+              ):(
+                <button disabled
+                className='btn'
+                type="button"
+               >
+                <i className="bi bi-check-lg"></i>
+                </button>
+              )}
+              
               <button 
                   className='btn'
                   type="button" onClick={handleCancel}>

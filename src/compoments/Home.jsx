@@ -1,5 +1,5 @@
 import React from "react";
-import Cherry from '../cherry.jpg'
+import Cherry from '../asstes/cherry.jpg'
 function Home (){
     return(
         <div style={{height:'100vh',
