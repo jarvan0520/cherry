@@ -1,10 +1,21 @@
-import React, { useState  } from 'react';
+import React, { Fragment, useState  } from 'react';
 import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
 import IconButton from "@material-ui/core/IconButton";
-import {apiLogin} from '../service'
+import {apiLogin} from '../apiService'
 import { useNavigate } from 'react-router-dom'
- function Login() {
+function Login() {
+  const ls = localStorage.getItem("jarvanCherryToken")
+  const ss = sessionStorage.getItem("jarvanCherryToken")
+  const logout = () => {
+    localStorage.removeItem("jarvanCherryToken")
+    localStorage.removeItem("logintime")
+    localStorage.removeItem("username")
+    localStorage.removeItem("rememberMe")
+    sessionStorage.removeItem("jarvanCherryToken")
+    sessionStorage.removeItem("username")
+}
+
   const navigate = useNavigate()
   const [state, setState] = useState({
     username: "",
@@ -51,7 +62,8 @@ import { useNavigate } from 'react-router-dom'
         return error;
       })
   }; 
-  return (   
+  return (
+    <Fragment>
     <section className="vh-100 gradient-custom">
       <div className="container py-5 h-100">
         <div className="row d-flex justify-content-center align-items-center h-100">
@@ -74,14 +86,12 @@ import { useNavigate } from 'react-router-dom'
                           {state.showPassword ? <Visibility /> : <VisibilityOff />}
                         </IconButton>                 
                       </div>
-                      <label className="form-label" htmlFor="typePasswordX">Password</label>  
+                      <label className="form-label" htmlFor="typePasswordX">Password</label> 
                   </div> 
                   <div>     
-                     <div>
-                          <label>
-                            <input name="rememberMe" checked={state.rememberMe} onChange={handleChange} type="checkbox"/> Remember me
-                          </label>
-                      </div>
+                    <label>
+                      <input name="rememberMe" checked={state.rememberMe} onChange={handleChange} type="checkbox"/>Remember me
+                    </label>   
                   </div>
                   <button className="btn btn-outline-light btn-lg px-5" type="submit" onClick={handleLogin}>Login</button>
                 </div>
@@ -91,6 +101,7 @@ import { useNavigate } from 'react-router-dom'
         </div>
       </div>  
       </section >
+      </Fragment>  
     )
 }
 export default Login;

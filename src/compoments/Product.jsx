@@ -4,8 +4,9 @@ import EditableRow from "./EditableRow";
 import Pagination from './Pagination';
 import '../Homepage.css';
 import _ from "lodash";
-import {apiGet,apiAdd,apiDelete,apiUpdate,apiUploadImg} from '../service'
+import {apiGet,apiAdd,apiDelete,apiUpdate,apiUploadImg} from '../apiService'
 import {intercept} from '../intercept'
+// import {paginate} from '../paginate'
 
 
 const Product = () => {
@@ -247,10 +248,10 @@ const Product = () => {
   }
   const handleOriginData =(data)=>{
     if(data.length === 0 ){
-      return paginate(prodList, currentPage, pageSize)
+       return paginate(prodList, currentPage, pageSize)
     }
     else{
-      return paginate(filteredData, currentPage, pageSize)
+       return paginate(filteredData, currentPage, pageSize)
     }
   }
   const handleFilter = (event) => {

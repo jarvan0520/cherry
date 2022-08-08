@@ -108,7 +108,6 @@ const EditableRow = ({
       </td>
       
     </tr>)}
-
     </React.Fragment>
     
   );

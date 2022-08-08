@@ -119,3 +119,11 @@ input{
     border-bottom: 0px !important;
 
 }
+@media  screen and  (min-width:2000px){
+   .page {
+        max-width: 2000px;
+   }
+   .note{
+        max-width: 2000px;
+   }
+}

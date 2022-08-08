@@ -1,12 +1,13 @@
 import React  from 'react';
-import './App.css';
-import { BrowserRouter as Router,Route,Routes} from 'react-router-dom'
+import Order from './compoments/Order';
+import Product from './compoments/Product';
 import Login from './compoments/Login';
 import Home from './compoments/Home'
 import Register from './compoments/Register';
+import { BrowserRouter as Router,Route,Routes} from 'react-router-dom'
+import './App.css';
 import {useEffect} from 'react'
-import Order from './compoments/Order';
-import Product from './compoments/Product';
+// import RouteService from './routeService'
 import './Homepage.css'
 export function App() {
    const ls = localStorage.getItem("jarvanCherryToken")
@@ -34,8 +35,8 @@ export function App() {
     }
   },[ls])
   return (
-    <div>
-      <nav className ="navbar navbar-expand-lg navbar-light bg-light">              
+    <div className='page'>
+      <nav className ="navbar navbar-expand-lg navbar-light bg-light" id='page'>              
           <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
               <span className="navbar-toggler-icon"></span>
           </button>
@@ -74,30 +75,30 @@ export function App() {
       </nav>
       <Router >   
         <Routes> 
-          <Route path = "*" element={<Home/>} />
-          { (ls||ss) && (
+            <Route path = "*" element={<Home/>} />
+            { (ls||ss) && (
             <Route 
             path = "/product" 
             element={<Product/>}
             />
-          )} 
-          { (ls||ss) && (
+            )} 
+            { (ls||ss) && (
             <Route 
             path = "/order" 
             element={<Order/>}
             />
-          )} 
-           { !(ls||ss) && (
+            )} 
+            { !(ls||ss) && (
             <Route 
             path = "/register" 
             element={<Register/>} 
             /> 
-          )}
-           { !(ls||ss) && (
-             <Route path = "/login" element={<Login/>}/>  
-          )} 
+            )}
+            { !(ls||ss) && (
+                <Route path = "/login" element={<Login/>}/>  
+            )} 
         </Routes>
-      </Router>
+     </Router>
     </div>
   );
 }

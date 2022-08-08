@@ -134,25 +134,16 @@ const Editable=()=> {
           fontfamily: '"Roboto", "Helvetica", "Arial", sans-serif',lineheight: '24px',
           letterspacing:'0.15px',margin:'20px 10px',}}>Product Order
      </h6>
-     <div className="row">
-       <div className="col-8">
+     <div className="row" style={{paddingLeft:"10px"}}>
+      
+       <div className="col-8" style={{display:"flex"}} >
+          <button disabled className="btn btn-secondary">Import:</button>
           <input
             type="file" className="form-control" 
-            style={{right:'0px' ,positions:'absolute'}}
+            // style={{right:'0px' ,positions:'absolute'}}
             onChange={(e) => {const file = e.target.files[0];readExcel(file);}}
           />
        </div>
-
-
-
-
-
-
-
-
-
-
-
         <div className="col-1">
           <button className="btn btn-secondary" onClick={downloadExcel}> Export</button>
         </div> 

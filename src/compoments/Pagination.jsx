@@ -174,8 +174,8 @@ const Pagination = ({ items,
         (
         <React.Fragment>
         <tr style={{height:"50px"}}>
-          <td colSpan={5} className='note'  style={{right:"0",position:"absolute",borderBottom:"10px",}}>
-            <div  >
+          <td colSpan={6} className='note'  style={{borderBottom:"10px"}}>
+            <div style={{float:"right"}} >
                 {currentPage>1?
                 (<>
                   <button disabled id="pagebutton">
